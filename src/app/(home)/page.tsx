@@ -129,7 +129,7 @@ function ShowSection({
         whileInView="show"
       >
         <motion.h1
-          className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent h-13"
+          className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent p-1"
           variants={item}
         >
           {show.title}
