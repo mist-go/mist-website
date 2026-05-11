@@ -43,8 +43,8 @@ export default function MorphText({ text }: MorphTextProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{
-                    type: "tween",
-                    duration: 1,
+                    type: "keyframes",
+                    duration: 0.6,
                   }}
                   className="inline-block"
                 >
