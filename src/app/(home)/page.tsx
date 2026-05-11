@@ -9,9 +9,17 @@ export const mistShowcase = [
   {
     title: "Rust.. With ergonomics?",
     description:
-      "Mist is a systems language that compiles to Rust, built on the idea that writing low-level code shouldn't feel mentally heavy.",
+      "C/C++ style syntax for comfort. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
     code: `void main() {
     println!("Hello, World!");
+
+    greet("Developer");
+}
+
+public void greet(str* name) {
+  // Familiar pointer ergonomics with Rust safety
+  String greeting = name.to_string();
+  println!("Hello, {}!", greeting);
 }`,
     cta: true,
   },
@@ -26,17 +34,6 @@ use <external_lib>;
 void process_data() {
     var list = new Vec(); // Zero-cost abstraction
     external_lib::perform_task(list);
-}`,
-  },
-
-  {
-    title: "Ergonomic Development",
-    description:
-      "C/C++ style syntax for quick onboarding. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
-    code: `public void greet(str* name) {
-    // Familiar pointer ergonomics with Rust safety
-    String greeting = name.to_string();
-    println!("Hello, {}!", greeting);
 }`,
   },
 
@@ -101,7 +98,7 @@ function ShowSection({
       <h1 className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent h-13">
         {show.title}
       </h1>
-      <p className="text-xl text-zinc-400">{show.description}</p>
+      <p className="text-xl text-zinc-400 text-center">{show.description}</p>
       {show.cta && (
         <div className="mt-3 lg:mt-1 flex gap-6">
           <Link
