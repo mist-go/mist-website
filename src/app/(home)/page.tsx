@@ -2,7 +2,7 @@
 
 import MorphText from "@/components/Morph";
 import { Card } from "fumadocs-ui/components/card";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const mistShowcase = [
   {
@@ -84,25 +84,64 @@ fn main() {
   },
 ];
 
+// Sub-component to handle individual section observation
+function ShowSection({
+  show,
+  setActiveCode,
+}: {
+  show: { title: string; description: string; code: string };
+  setActiveCode: (v: string) => void;
+}) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setActiveCode(show.code);
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [show.code, setActiveCode]);
+
+  return (
+    <section
+      ref={ref}
+      className="h-svh p-20 flex flex-col gap-2 items-center justify-center"
+    >
+      <h1 className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent">
+        {show.title}
+      </h1>
+      <p className="text-xl text-zinc-400">{show.description}</p>
+    </section>
+  );
+}
+
 export default function HomePage() {
+  const [currentText, setCurrentText] = useState(mistShowcase[0]?.code || "");
+
   return (
     <div className="flex w-full">
       <div className="flex-1">
         {mistShowcase.map((show) => (
-          <section
+          <ShowSection
             key={show.title}
-            className="h-svh p-20 flex flex-col gap-2 items-center justify-center"
-          >
-            <h1 className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent">
-              {show.title}
-            </h1>
-            <p className="text-xl text-zinc-400">{show.description}</p>
-          </section>
+            show={show}
+            setActiveCode={setCurrentText}
+          />
         ))}
       </div>
 
       <div className="w-[40vw] h-svh sticky top-0 flex items-center justify-center">
-        <Card className="w-full max-w-md h-[calc(100vh-300px)]" title></Card>
+        <Card className="w-full max-w-md h-[calc(100vh-300px)]" title>
+          <code className="whitespace-pre-wrap">
+            <MorphText text={currentText} />
+          </code>
+        </Card>
       </div>
     </div>
   );
