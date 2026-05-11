@@ -1,0 +1,66 @@
+---
+title: Get Started
+description: This guide will help you install the Mist CLI, understand its basic commands, and compile your first program.
+icon: Download
+---
+
+## Installation
+
+Mist is distributed through Cargo.
+
+Install the Mist compiler using:
+
+```bash title="Terminal"
+cargo install mist-lang@0.0.1-alpha2
+```
+
+Verify using
+
+```bash title="Terminal"
+mist version
+```
+
+---
+
+## Usage
+
+```bash title="Compiles the project in the current directory"
+mist build
+```
+
+```bash title="Prints the compiler version"
+mist version
+```
+
+```bash title="Shows the help message and available commands"
+mist help
+```
+
+---
+
+## Hello World
+
+On your existing cargo project project (`cargo init` or `cargo new <name>`).
+
+```json title="mist.json"
+{
+  "src": "src",
+  "output": "build"
+}
+```
+
+```toml title="Cargo.toml"
+[[bin]]
+name = "main"
+path = "build/main.rs"
+```
+
+```bash title=".gitignore"
+/build
+```
+
+```cpp title="src/main.mist"
+void main() {
+    println!("Hello World!");
+}
+```
