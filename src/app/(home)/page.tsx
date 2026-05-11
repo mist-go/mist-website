@@ -121,9 +121,12 @@ function ShowSection({
   }, [show.code, setActiveCode]);
 
   return (
-    <motion.section ref={ref} className="h-svh p-10 md:p-20 w-full">
+    <motion.section
+      ref={ref}
+      className="h-svh p-10 md:p-20 w-full flex flex-col items-center justify-center"
+    >
       <motion.div
-        className="w-full h-full flex flex-col gap-2 items-center justify-center"
+        className="flex flex-col gap-2 items-center justify-center"
         variants={container}
         initial="hidden"
         whileInView="show"
