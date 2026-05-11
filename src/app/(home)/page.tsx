@@ -1,7 +1,7 @@
 "use client";
 
 import MorphCode from "@/components/Morph";
-import { NewspaperIcon, RocketIcon } from "lucide-react";
+import { ChevronsDownIcon, NewspaperIcon, RocketIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, Variants } from "framer-motion";
@@ -226,6 +226,27 @@ export default function HomePage() {
         </div>
       </div>
       <div className="xl:w-[40vw]" />
+      {/* <div className="absolute left-1/2 bottom-1">
+        
+      </div> */}
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="flex flex-col items-center gap-1 text-muted-foreground"
+        >
+          <ChevronsDownIcon className="h-6 w-6" strokeWidth={1.5} />
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
