@@ -2,6 +2,8 @@
 
 import MorphText from "@/components/Morph";
 import { Card } from "fumadocs-ui/components/card";
+import { BookOpenIcon, NewspaperIcon, RocketIcon } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export const mistShowcase = [
@@ -12,6 +14,7 @@ export const mistShowcase = [
     code: `void main() {
     println!("Hello, world!");
 }`,
+    cta: true,
   },
 
   {
@@ -92,7 +95,7 @@ function ShowSection({
   show,
   setActiveCode,
 }: {
-  show: { title: string; description: string; code: string };
+  show: { title: string; description: string; code: string; cta?: boolean };
   setActiveCode: (v: string) => void;
 }) {
   const ref = useRef(null);
@@ -120,6 +123,25 @@ function ShowSection({
         {show.title}
       </h1>
       <p className="text-xl text-zinc-400">{show.description}</p>
+      {show.cta && (
+        <div className="flex gap-6">
+          <Link
+            className="bg-fd-primary/15 text-fd-primary/90 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-primary/20 hover:text-fd-primary flex gap-2 items-center"
+            href="/docs/get-started"
+          >
+            <RocketIcon className="w-5 h-5" />
+            Get Started
+          </Link>
+
+          <Link
+            className="bg-fd-card-foreground/13 text-fd-card-foreground/80 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-card-foreground/16 hover:text-fd-card-foreground/83 flex gap-2 items-center"
+            href="/blog"
+          >
+            <NewspaperIcon className="w-5 h-5" />
+            View Blog
+          </Link>
+        </div>
+      )}
     </section>
   );
 }
