@@ -200,17 +200,22 @@ export default function HomePage() {
   const [currentText, setCurrentText] = useState(mistShowcase[0]?.code || "");
 
   return (
-    <div className="flex w-full flex-col md:flex-row">
-      <div className="order-1 md:order-2 w-full md:w-[40vw] md:h-svh sticky top-20 md:top-0 flex items-center justify-center z-10 bg-background pb-4 md:pb-0">
-        <div className="md:w-full md:pl-14 overflow-hidden">
-          <div className="w-max h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20">
+    <div className="flex w-full flex-col xl:flex-row">
+      <div className="flex fixed xl:top-0 xl:right-0 w-svw xl:w-[40vw] h-svh xl:items-center mt-10 justify-center z-50 pointer-events-none">
+        <div className="xl:w-full overflow-hidden">
+          <motion.div
+            className="w-max h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20"
+            variants={item}
+            initial="hidden"
+            animate="show"
+          >
             <MorphCode code={currentText} />
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      <div className="flex-1 order-2 md:order-1">
-        <div className="-mt-30 md:mt-0">
+      <div className="flex-1">
+        <div className="mt-10 xl:mt-0">
           {mistShowcase.map((show) => (
             <ShowSection
               key={show.title}
@@ -220,6 +225,7 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+      <div className="xl:w-[40vw]" />
     </div>
   );
 }
