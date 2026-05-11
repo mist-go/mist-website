@@ -244,7 +244,7 @@ export default function HomePage() {
           }}
           className="flex flex-col items-center gap-1 text-muted-foreground"
         >
-          <ChevronsDownIcon className="h-6 w-6" strokeWidth={1.5} />
+          <ChevronsDownIcon className="h-6 w-6 text-fd-primary" strokeWidth={1.5} />
         </motion.div>
       </motion.div>
     </div>
