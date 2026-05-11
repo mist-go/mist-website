@@ -1,46 +1,46 @@
 ---
 title: Get Started
-description: This guide will help you install the Mist CLI, understand its basic commands, and compile your first program.
+description: This guide will walk you through installing the Mist CLI, setting up your development environment, and compiling your very first program.
 icon: Rocket
 ---
 
-## Installation
+## 1. Installation
 
-Mist is distributed through Cargo.
+Mist is currently distributed as a Cargo crate. To get started, you'll need to have the Rust toolchain installed.
 
-Install the Mist compiler using:
+Run the following command to install the Mist compiler:
 
 ```bash title="Terminal"
 cargo install mist-lang@0.0.1-alpha2
+
 ```
 
-Verify using
+Once the installation finishes, verify it by checking the version:
 
 ```bash title="Terminal"
 mist version
+
 ```
 
 ---
 
-## Usage
+## 2. Setting Up Your Project
 
-```bash title="Compiles the project in the current directory"
-mist build
+Mist works alongside Cargo to handle the heavy lifting. Follow these steps to prepare your environment for your first "Hello World" program.
+
+### Initialize a New Project
+
+If you haven't already, create a new Cargo project and navigate into the directory:
+
+```bash title="Terminal"
+cargo new my-mist-app
+cd my-mist-app
+
 ```
 
-```bash title="Prints the compiler version"
-mist version
-```
+### Configure Mist
 
-```bash title="Shows the help message and available commands"
-mist help
-```
-
----
-
-## Hello World
-
-On your existing cargo project project (`cargo init` or `cargo new <name>`).
+Create a `mist.json` file in your root directory. This tells the compiler where to look for your source code and where to place the generated Rust files.
 
 ```json title="mist.json"
 {
@@ -49,18 +49,54 @@ On your existing cargo project project (`cargo init` or `cargo new <name>`).
 }
 ```
 
+### Link Cargo to Mist
+
+Since Mist compiles down to Rust, you need to point Cargo to the generated output. Update your `Cargo.toml` to include the following:
+
 ```toml title="Cargo.toml"
 [[bin]]
 name = "main"
 path = "build/main.rs"
+
 ```
 
-```bash title=".gitignore"
-/build
-```
+> **Pro Tip:** You’ll probably want to add `/build` to your `.gitignore` file to keep your repository clean!
+
+---
+
+## 3. Your First Program
+
+Now for the fun part! Create a new file at `src/main.mist` and add the following code:
 
 ```cpp title="src/main.mist"
 void main() {
     println!("Hello World!");
 }
+
 ```
+
+### Build and Run
+
+To turn your Mist code into an executable, use the `build` command:
+
+```bash title="Terminal"
+mist build
+
+```
+
+Once the build is successful, you can run your program using standard Cargo commands:
+
+```bash title="Terminal"
+cargo run
+
+```
+
+---
+
+## Command Reference
+
+| Command        | Description                                                      |
+| -------------- | ---------------------------------------------------------------- |
+| `mist build`   | Compiles your `.mist` files into Rust code in the output folder. |
+| `mist version` | Displays the current version of the Mist compiler.               |
+| `mist help`    | Stuck? Use this to see all available commands and options.       |
