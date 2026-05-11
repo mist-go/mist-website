@@ -44,27 +44,56 @@ void process_data() {
     title: "Class and Type System",
     description:
       "Classes are syntactic sugar for Rust structs. Using 'extends' provides inheritance-style syntax over struct composition, compiling into the underlying Rust type system.",
-    code: `public class Entity {
-    u32 id;
+    code: `public struct PluginInfo {
+    public String name,
+    public String version,
 }
+  
+public class PluginRegistry<T> {
+    T plugins;
 
-// Compiles to struct composition in Rust
-public struct Player extends Entity {
-    String username;
+    public constructor(T plugins) {
+        self.plugins = plugins;
+    }
 
-    public constructor(u32 id, str* name) {
-        self.id = id;
-        self.username = name.to_string();
+    public T plugins(self) {
+        return self.plugins;
     }
 }`,
   },
 
   {
-    title: "Explicit Mutability",
+    title: "Better Developer Experience",
     description:
-      "Mist maintains memory intent through explicit self pointers and mutability modifiers.",
-    code: `public void update_id(self mut*, u32 new_id) {
-    self.id = new_id;
+      "While Rust can already be a great DX, Mist implements concepts that are proven to improve structure.",
+    code: `public class Logger {
+    String prefix;
+
+    public constructor(str* prefix) {
+        self.prefix = prefix.to_string();
+    }
+
+    public void log(self*, LogLevel level, str* message) {
+        match(level) {
+            LogLevel::Info => {
+                println!("{level} {} {}", self.prefix, message);
+            }
+
+            LogLevel::Warning => {
+                println!("{level} {} {}", self.prefix, message);
+            }
+
+            LogLevel::Error => {
+                println!("{level} {} {}", self.prefix, message);
+            }
+        }
+    }
+
+    impl fmt::Display {
+        fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
+            return write!(f, "logger ({})", self.prefix);
+        }
+    }
 }`,
   },
 ];
