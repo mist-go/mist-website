@@ -12,14 +12,12 @@ Run the following command to install the Mist compiler:
 
 ```bash title="Terminal"
 cargo install mist-lang@0.0.1-alpha2
-
 ```
 
 Once the installation finishes, verify it by checking the version:
 
 ```bash title="Terminal"
 mist version
-
 ```
 
 ---
@@ -35,7 +33,6 @@ If you haven't already, create a new Cargo project and navigate into the directo
 ```bash title="Terminal"
 cargo new my-mist-app
 cd my-mist-app
-
 ```
 
 ### Configure Mist
@@ -57,7 +54,6 @@ Since Mist compiles down to Rust, you need to point Cargo to the generated outpu
 [[bin]]
 name = "main"
 path = "build/main.rs"
-
 ```
 
 > **Pro Tip:** You’ll probably want to add `/build` to your `.gitignore` file to keep your repository clean!
@@ -72,7 +68,6 @@ Now for the fun part! Create a new file at `src/main.mist` and add the following
 void main() {
     println!("Hello World!");
 }
-
 ```
 
 ### Build and Run
@@ -81,7 +76,6 @@ To turn your Mist code into an executable, use the `build` command:
 
 ```bash title="Terminal"
 mist build
-
 ```
 
 Once the build is successful, you can run your program using standard Cargo commands:
