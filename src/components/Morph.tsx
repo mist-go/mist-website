@@ -1,60 +1,70 @@
-import { motion, AnimatePresence } from "framer-motion";
+"use client";
 
-interface MorphTextProps {
-  text: string;
+import { BundledLanguage, codeToTokens } from "shiki";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+
+interface Props {
+  code: string;
+  lang?: BundledLanguage;
 }
 
-const tokenize = (str: string) => {
-  const counts: Record<string, number> = {};
-  return str.split("").map((char) => {
-    const displayChar = char === " " ? "\u00A0" : char;
-    counts[char] = (counts[char] || 0) + 1;
-    return { char: displayChar, id: `${char}-${counts[char]}` };
-  });
-};
+export default function MorphCode({ code, lang = "rust" }: Props) {
+  const [lines, setLines] = useState<any[][]>([]);
 
-export default function MorphText({ text }: MorphTextProps) {
-  const lines = text.split("\n"); // 👈 split by newline
+  useEffect(() => {
+    async function run() {
+      const result = await codeToTokens(code, {
+        lang,
+        theme: "github-dark",
+      });
+
+      const rawLines = code.split("\n");
+
+      const fixed = rawLines.map((_, i) => {
+        return (
+          result.tokens[i] ?? [
+            {
+              content: "\n",
+              color: undefined,
+            },
+          ]
+        );
+      });
+
+      setLines(fixed);
+    }
+
+    run();
+  }, [code, lang]);
 
   return (
-    <div className="flex flex-col">
-      <AnimatePresence mode="popLayout">
-        {lines.map((line, lineIndex) => {
-          const tokens = tokenize(line);
-
-          // 👇 empty line = real vertical space
-          if (line === "") {
-            return (
-              <div
-                key={lineIndex}
-                className="h-4" // adjust spacing as needed
-              />
-            );
-          }
-
-          return (
-            <div key={lineIndex} className="flex flex-wrap">
-              {tokens.map(({ char, id }) => (
+    <pre className="text-sm">
+      <code>
+        <AnimatePresence mode="popLayout">
+          {lines.map((line, lineIndex) => (
+            <div key={lineIndex} className="flex min-h-[1em]">
+              {line.map((token, tokenIndex) => (
                 <motion.span
-                  key={`${lineIndex}-${id}`}
-                  layoutId={`${lineIndex}-${id}`}
+                  key={`${lineIndex}-${tokenIndex}`}
+                  layoutId={`${lineIndex}-${tokenIndex}`}
                   layout
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{
-                    type: "keyframes",
-                    duration: 0.6,
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.35 }}
+                  style={{
+                    color: token.color,
+                    whiteSpace: "pre",
                   }}
-                  className="inline-block"
                 >
-                  {char}
+                  {token.content}
                 </motion.span>
               ))}
             </div>
-          );
-        })}
-      </AnimatePresence>
-    </div>
+          ))}
+        </AnimatePresence>
+      </code>
+    </pre>
   );
 }

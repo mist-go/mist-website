@@ -1,8 +1,7 @@
 "use client";
 
-import MorphText from "@/components/Morph";
-import { Card } from "fumadocs-ui/components/card";
-import { BookOpenIcon, NewspaperIcon, RocketIcon } from "lucide-react";
+import MorphCode from "@/components/Morph";
+import { NewspaperIcon, RocketIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -152,11 +151,9 @@ export default function HomePage() {
   return (
     <div className="flex w-full flex-col md:flex-row">
       <div className="order-1 md:order-2 w-full md:w-[40vw] md:h-svh sticky top-20 md:top-0 flex items-center justify-center z-10 bg-background pb-4 md:pb-0">
-        <Card className="w-full max-w-md h-auto md:h-100" title>
-          <code className="whitespace-pre-wrap">
-            <MorphText text={currentText} />
-          </code>
-        </Card>
+        <div className="w-max h-auto border border-fd-border p-5 rounded-xl min-h-24">
+          <MorphCode code={currentText} />
+        </div>
       </div>
 
       <div className="flex-1 order-2 md:order-1">
