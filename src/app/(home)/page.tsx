@@ -117,14 +117,14 @@ function ShowSection({
   return (
     <section
       ref={ref}
-      className="h-svh p-20 flex flex-col gap-2 items-center justify-center"
+      className="h-svh p-10 md:p-20 flex flex-col gap-2 items-center justify-center"
     >
       <h1 className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent">
         {show.title}
       </h1>
       <p className="text-xl text-zinc-400">{show.description}</p>
       {show.cta && (
-        <div className="flex gap-6">
+        <div className="mt-3 lg:mt-0 flex gap-6">
           <Link
             className="bg-fd-primary/15 text-fd-primary/90 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-primary/20 hover:text-fd-primary flex gap-2 items-center"
             href="/docs/get-started"
@@ -150,23 +150,25 @@ export default function HomePage() {
   const [currentText, setCurrentText] = useState(mistShowcase[0]?.code || "");
 
   return (
-    <div className="flex w-full">
-      <div className="flex-1">
-        {mistShowcase.map((show) => (
-          <ShowSection
-            key={show.title}
-            show={show}
-            setActiveCode={setCurrentText}
-          />
-        ))}
-      </div>
-
-      <div className="w-[40vw] h-svh sticky top-0 flex items-center justify-center">
-        <Card className="w-full max-w-md h-100" title>
+    <div className="flex w-full flex-col md:flex-row">
+      <div className="order-1 md:order-2 w-full md:w-[40vw] md:h-svh sticky top-20 md:top-0 flex items-center justify-center z-10 bg-background pb-4 md:pb-0">
+        <Card className="w-full max-w-md h-auto md:h-100" title>
           <code className="whitespace-pre-wrap">
             <MorphText text={currentText} />
           </code>
         </Card>
+      </div>
+
+      <div className="flex-1 order-2 md:order-1">
+        <div className="-mt-30 md:mt-0">
+          {mistShowcase.map((show) => (
+            <ShowSection
+              key={show.title}
+              show={show}
+              setActiveCode={setCurrentText}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
