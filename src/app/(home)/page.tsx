@@ -174,7 +174,7 @@ export default function HomePage() {
     <div className="flex w-full flex-col md:flex-row">
       <div className="order-1 md:order-2 w-full md:w-[40vw] md:h-svh sticky top-20 md:top-0 flex items-center justify-center z-10 bg-background pb-4 md:pb-0">
         <div className="md:w-full md:pl-14 overflow-hidden">
-          <div className="w-max h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black/20">
+          <div className="w-max h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20">
             <MorphCode code={currentText} />
           </div>
         </div>
