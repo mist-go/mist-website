@@ -1,13 +1,49 @@
 ---
-title: Hello World
-description: Your first document
+title: Introduction
+description: What Mist is and the thinking behind it.
+icon: Rocket
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+# Introduction
 
-## What is Next?
+Mist is a systems programming language that compiles directly into Rust.
+
+It exists to make Rust-based development feel more direct and less mentally heavy, while preserving Rust’s performance model and ecosystem.
+
+Mist does not replace Rust. It is another way of writing Rust-compatible systems code with a more ergonomic surface layer.
+
+---
+
+## Philosophy
+
+Mist is built around making systems programming feel calm, predictable, and easy to reason about.
+
+When working close to the system, developers constantly manage performance, correctness, and structure at the same time. As projects grow, this can create mental friction — not because the system is unclear, but because expressing it can feel heavy.
+
+Mist focuses on reducing that friction in how code is written and read, so attention stays on the problem being solved rather than the mechanics of expression.
+
+The language is shaped around clarity and flow: code should feel direct to write, and easy to understand when revisited.
+
+---
+
+## What Mist Is
+
+Mist is a Rust-compatible systems language with a compiled-to-Rust design.
+
+This means:
+
+- It integrates directly with the Rust ecosystem
+- It compiles into idiomatic Rust code
+- It preserves Rust’s performance characteristics
+- It has no runtime or garbage collector
+- It is designed to stay predictable and close to the metal
+
+Mist provides a more ergonomic way of authoring systems code while remaining fully grounded in Rust’s type system and execution model.
+
+It is especially designed for readability and structure in larger codebases, where Rust’s guarantees remain important but expression overhead becomes noticeable.
+
+---
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+  <Card title="Get Started" href="/docs/get-started" />
 </Cards>
