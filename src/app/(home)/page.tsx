@@ -1,16 +1,24 @@
-import Link from 'next/link';
+"use client";
+
+import MorphText from "@/components/Morph";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  const [showNext, setShowNext] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowNext(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const text = showNext ? "world hello i32(" : "(hello i32 world";
+
   return (
     <div className="flex flex-col justify-center text-center flex-1">
-      <h1 className="text-2xl font-bold mb-4">Hello World</h1>
-      <p>
-        You can open{' '}
-        <Link href="/docs" className="font-medium underline">
-          /docs
-        </Link>{' '}
-        and see the documentation.
-      </p>
+      <MorphText text={text} />
     </div>
   );
 }
