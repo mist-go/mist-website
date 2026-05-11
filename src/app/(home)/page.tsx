@@ -4,6 +4,9 @@ import MorphCode from "@/components/Morph";
 import { NewspaperIcon, RocketIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { motion, Variants } from "framer-motion";
+
+const MotionLink = motion(Link);
 
 export const mistShowcase = [
   {
@@ -66,6 +69,33 @@ public struct Player extends Entity {
   },
 ];
 
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const item: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 12,
+    filter: "blur(10px)",
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.6,
+      ease: "easeOut" as const,
+    },
+  },
+};
+
 // Sub-component to handle individual section observation
 function ShowSection({
   show,
@@ -91,34 +121,46 @@ function ShowSection({
   }, [show.code, setActiveCode]);
 
   return (
-    <section
-      ref={ref}
-      className="h-svh p-10 md:p-20 flex flex-col gap-2 items-center justify-center"
-    >
-      <h1 className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent h-13">
-        {show.title}
-      </h1>
-      <p className="text-xl text-zinc-400 text-center">{show.description}</p>
-      {show.cta && (
-        <div className="mt-3 lg:mt-1 flex gap-6">
-          <Link
-            className="bg-fd-primary/15 text-fd-primary/90 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-primary/20 hover:text-fd-primary flex gap-2 items-center"
-            href="/docs/get-started"
-          >
-            <RocketIcon className="w-5 h-5" />
-            Get Started
-          </Link>
+    <motion.section ref={ref} className="h-svh p-10 md:p-20 w-full">
+      <motion.div
+        className="w-full h-full flex flex-col gap-2 items-center justify-center"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+      >
+        <motion.h1
+          className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent h-13"
+          variants={item}
+        >
+          {show.title}
+        </motion.h1>
 
-          <Link
-            className="bg-fd-card-foreground/13 text-fd-card-foreground/80 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-card-foreground/16 hover:text-fd-card-foreground/83 flex gap-2 items-center"
-            href="/blog"
-          >
-            <NewspaperIcon className="w-5 h-5" />
-            View Blog
-          </Link>
-        </div>
-      )}
-    </section>
+        <motion.p className="text-xl text-zinc-400 text-center" variants={item}>
+          {show.description}
+        </motion.p>
+        {show.cta && (
+          <motion.div className="mt-3 lg:mt-1 flex gap-6">
+            <MotionLink
+              variants={item}
+              className="bg-fd-primary/15 text-fd-primary/90 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-primary/20 hover:text-fd-primary flex gap-2 items-center"
+              href="/docs/get-started"
+            >
+              <RocketIcon className="w-5 h-5" />
+              Get Started
+            </MotionLink>
+
+            <MotionLink
+              variants={item}
+              className="bg-fd-card-foreground/13 text-fd-card-foreground/80 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-card-foreground/16 hover:text-fd-card-foreground/83 flex gap-2 items-center"
+              href="/blog"
+            >
+              <NewspaperIcon className="w-5 h-5" />
+              View Blog
+            </MotionLink>
+          </motion.div>
+        )}
+      </motion.div>
+    </motion.section>
   );
 }
 
