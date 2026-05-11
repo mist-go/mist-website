@@ -7,84 +7,64 @@ import { useEffect, useRef, useState } from "react";
 
 export const mistShowcase = [
   {
-    title: "Hello World",
+    title: "Rust.. With ergonomics?",
     description:
-      "Mist starts with familiar syntax, designed to feel immediately readable while compiling into efficient Rust code.",
+      "Mist is a systems language that compiles to Rust, built on the idea that writing low-level code shouldn't feel mentally heavy.",
     code: `void main() {
-    println!("Hello, world!");
+    println!("Hello, World!");
 }`,
     cta: true,
   },
 
   {
-    title: "C-Style Pointers & Strings",
+    title: "Fast and works with Rust",
     description:
-      "Mist introduces ergonomics for string handling and pointers while maintaining Rust's underlying safety.",
+      "All of your favorite Rust libraries work with Mist. It compiles directly into efficient Rust code with zero-cost abstractions and no runtime overhead.",
+    code: `use <std::vec::Vec>;
+use <external_lib>;
+
+void process_data() {
+    var list = new Vec(); // Zero-cost abstraction
+    external_lib::perform_task(list);
+}`,
+  },
+
+  {
+    title: "Ergonomic Development",
+    description:
+      "C/C++ style syntax for quick onboarding. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
     code: `public void greet(str* name) {
+    // Familiar pointer ergonomics with Rust safety
     String greeting = name.to_string();
     println!("Hello, {}!", greeting);
 }`,
   },
 
   {
-    title: "Modern Classes",
+    title: "Class and Type System",
     description:
-      "Classes provide a familiar authoring style with explicit visibility modifiers and constructor logic.",
-    code: `public class User {
-    String name;
-    i32 age;
+      "Classes are syntactic sugar for Rust structs. Using 'extends' provides inheritance-style syntax over struct composition, compiling into the underlying Rust type system.",
+    code: `public class Entity {
+    u32 id;
+}
 
-    public constructor(str* name, i32 age) {
-        self.name = name.to_string();
-        self.age = age;
+// Compiles to struct composition in Rust
+public struct Player extends Entity {
+    String username;
+
+    public constructor(u32 id, str* name) {
+        self.id = id;
+        self.username = name.to_string();
     }
 }`,
   },
 
   {
-    title: "Explicit Self & Mutability",
+    title: "Explicit Mutability",
     description:
-      "Method signatures clearly define access patterns using self pointers, making memory intent obvious.",
-    code: `public void update_age(self mut*, i32 new_age) {
-    self.age = new_age;
-    self.logger.info("Age updated");
-}`,
-  },
-
-  {
-    title: "Pattern Matching",
-    description:
-      "Full support for Rust-style enums and pattern matching for robust control flow.",
-    code: `void handle_event(self*, event::Event e) {
-    match(e) {
-        event::Event::Startup => self.boot(),
-        event::Event::Error(msg) => println!("Error: {}", msg),
-        _ => {}
-    }
-}`,
-  },
-
-  {
-    title: "Type Inference & Vectors",
-    description:
-      "Mist combines strong typing with keyword-based inference for a streamlined developer experience.",
-    code: `public void init_system(self mut*) {
-    var task = task::create_task("init");
-    self.tasks = new Vec();
-    self.tasks.push(task);
-}`,
-  },
-
-  {
-    title: "Module Interop",
-    description:
-      "Use super-relative imports to easily navigate project hierarchies and external crates.",
-    code: `use <super::logger>;
-use <std::fs>;
-
-public void log_to_file(logger::Logger log) {
-    let data = fs::read_to_string("log.txt");
-    log.info(data);
+      "Mist maintains memory intent through explicit self pointers and mutability modifiers.",
+    code: `public void update_id(self mut*, u32 new_id) {
+    self.id = new_id;
 }`,
   },
 ];
@@ -118,12 +98,12 @@ function ShowSection({
       ref={ref}
       className="h-svh p-10 md:p-20 flex flex-col gap-2 items-center justify-center"
     >
-      <h1 className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent">
+      <h1 className="text-5xl bg-linear-to-r from-fd-primary to-fd-muted-foreground bg-clip-text text-transparent h-13">
         {show.title}
       </h1>
       <p className="text-xl text-zinc-400">{show.description}</p>
       {show.cta && (
-        <div className="mt-3 lg:mt-0 flex gap-6">
+        <div className="mt-3 lg:mt-1 flex gap-6">
           <Link
             className="bg-fd-primary/15 text-fd-primary/90 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-primary/20 hover:text-fd-primary flex gap-2 items-center"
             href="/docs/get-started"
