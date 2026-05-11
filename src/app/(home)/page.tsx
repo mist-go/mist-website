@@ -9,77 +9,80 @@ export const mistShowcase = [
     title: "Hello World",
     description:
       "Mist starts with familiar syntax, designed to feel immediately readable while compiling into efficient Rust code.",
-    code: `fn main() {
-    println("Hello, world!");
+    code: `void main() {
+    println!("Hello, world!");
 }`,
   },
 
   {
-    title: "Rust Compatibility",
+    title: "C-Style Pointers & Strings",
     description:
-      "Mist compiles directly into Rust, meaning you can use existing Rust libraries without breaking your workflow.",
-    code: `use std::fs;
-
-fn main() {
-    let data = fs::read_to_string("file.txt");
-    println(data);
+      "Mist introduces ergonomics for string handling and pointers while maintaining Rust's underlying safety.",
+    code: `public void greet(str* name) {
+    String greeting = name.to_string();
+    println!("Hello, {}!", greeting);
 }`,
   },
 
   {
-    title: "Structs",
+    title: "Modern Classes",
     description:
-      "Mist keeps Rust’s struct model intact while making declaration more ergonomic.",
-    code: `struct User {
-    name: String,
-    age: int
-}`,
-  },
+      "Classes provide a familiar authoring style with explicit visibility modifiers and constructor logic.",
+    code: `public class User {
+    String name;
+    i32 age;
 
-  {
-    title: "Classes (Syntax Sugar)",
-    description:
-      "Classes provide a familiar authoring style over Rust structs without introducing a runtime object model.",
-    code: `class Logger {
-    String prefix;
-
-    fn info(self, msg: String) {
-        println(self.prefix + msg);
+    public constructor(str* name, i32 age) {
+        self.name = name.to_string();
+        self.age = age;
     }
 }`,
   },
 
   {
-    title: "Inheritance-style Composition",
+    title: "Explicit Self & Mutability",
     description:
-      "Extends provides inheritance-like syntax while compiling down to Rust-style composition.",
-    code: `struct B extends A {
-    extra: String
+      "Method signatures clearly define access patterns using self pointers, making memory intent obvious.",
+    code: `public void update_age(self mut*, i32 new_age) {
+    self.age = new_age;
+    self.logger.info("Age updated");
 }`,
   },
 
   {
-    title: "Zero-cost Abstractions",
+    title: "Pattern Matching",
     description:
-      "Mist preserves Rust’s performance model — abstractions compile away entirely at runtime.",
-    code: `fn map<T, U>(arr: Vec<T>, f: fn(T) -> U) -> Vec<U> {
-    let mut out = Vec::new();
-    for x in arr {
-        out.push(f(x));
+      "Full support for Rust-style enums and pattern matching for robust control flow.",
+    code: `void handle_event(self*, event::Event e) {
+    match(e) {
+        event::Event::Startup => self.boot(),
+        event::Event::Error(msg) => println!("Error: {}", msg),
+        _ => {}
     }
-    out
 }`,
   },
 
   {
-    title: "Ecosystem Integration",
+    title: "Type Inference & Vectors",
     description:
-      "All Rust crates work directly in Mist, keeping the ecosystem fully intact.",
-    code: `use serde_json::json;
+      "Mist combines strong typing with keyword-based inference for a streamlined developer experience.",
+    code: `public void init_system(self mut*) {
+    var task = task::create_task("init");
+    self.tasks = new Vec();
+    self.tasks.push(task);
+}`,
+  },
 
-fn main() {
-    let data = json!({ "hello": "mist" });
-    println(data);
+  {
+    title: "Module Interop",
+    description:
+      "Use super-relative imports to easily navigate project hierarchies and external crates.",
+    code: `use <super::logger>;
+use <std::fs>;
+
+public void log_to_file(logger::Logger log) {
+    let data = fs::read_to_string("log.txt");
+    log.info(data);
 }`,
   },
 ];
@@ -137,7 +140,7 @@ export default function HomePage() {
       </div>
 
       <div className="w-[40vw] h-svh sticky top-0 flex items-center justify-center">
-        <Card className="w-full max-w-md h-[calc(100vh-300px)]" title>
+        <Card className="w-full max-w-md h-100" title>
           <code className="whitespace-pre-wrap">
             <MorphText text={currentText} />
           </code>
