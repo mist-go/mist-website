@@ -1,41 +1,52 @@
 ---
 title: Introduction
-description: What Mist is and the thinking behind it.
+description: Discover the philosophy and architecture behind Mist.
 icon: Brain
 ---
 
-Mist is a systems programming language that compiles directly into Rust.
+**Mist** is a systems programming language that compiles directly into Rust.
 
-It exists to make Rust-based development feel more direct and less mentally heavy, while preserving Rust’s performance model and ecosystem.
+It was designed to make high-performance development feel more direct and less mentally taxing, without compromising on the safety, performance, or ecosystem richness that Rust provides.
 
-Mist does not replace Rust. It is another way of writing Rust-compatible systems code with a more ergonomic surface layer.
+Mist is not a replacement for Rust. Instead, it serves as a more ergonomic surface layer for writing Rust-compatible systems code. It allows you to focus on the "what" while the compiler handles the "how" of idiomatic Rust generation.
 
 ---
 
-## Philosophy
+## Philosophy: Systems Programming, Refined
 
-Mist is built around making systems programming feel calm, predictable, and easy to reason about.
+Mist is built on the belief that systems programming should feel **calm, predictable, and easy to reason about**.
 
-When working close to the system, developers constantly manage performance, correctness, and structure at the same time. As projects grow, this can create mental friction — not because the system is unclear, but because expressing it can feel heavy.
+When working close to the metal, developers must balance performance, correctness, and structure. As projects scale, the "expression overhead"—the mental energy required to satisfy complex syntax—often creates friction. Mist reduces this friction by:
 
-Mist focuses on reducing that friction in how code is written and read, so attention stays on the problem being solved rather than the mechanics of expression.
+* **Focusing on Flow:** Code should feel direct to write and require minimal "re-contextualization" when revisited months later.
 
-The language is shaped around clarity and flow: code should feel direct to write, and easy to understand when revisited.
+
+* **Reducing Mental Friction:** By simplifying the surface syntax, your attention stays on solving the problem, not fighting the mechanics of expression.
+
+
+* **Predictable Abstractions:** Every feature in Mist is designed to be transparent, ensuring you always understand the underlying system behavior.
+
+
 
 ---
 
 ## What Mist Is
 
-Mist is a Rust-compatible systems language with a compiled-to-Rust design.
+Mist is a compiled-to-Rust language specifically engineered for developers who need Rust's power but want a leaner authoring experience.
 
-This means:
+### Key Characteristics:
 
-- It integrates directly with the Rust ecosystem
-- It compiles into idiomatic Rust code
-- It preserves Rust’s performance characteristics
-- It has no runtime or garbage collector
-- It is designed to stay predictable and close to the metal
+* **Native Ecosystem Integration:** Mist integrates directly with Cargo and existing Rust crates.
 
-Mist provides a more ergonomic way of authoring systems code while remaining fully grounded in Rust’s type system and execution model.
 
-It is especially designed for readability and structure in larger codebases, where Rust’s guarantees remain important but expression overhead becomes noticeable.
+* **Idiomatic Output:** It compiles into clean, readable Rust code rather than opaque machine logic.
+
+
+* **Zero-Cost Performance:** There is no runtime, no garbage collector, and no performance penalty.
+
+
+* **Grounded Safety:** Mist remains fully powered by Rust’s type system and execution model.
+
+
+
+Mist is especially valuable for large-scale codebases where readability is paramount, but the strict guarantees of a systems language are non-negotiable.
