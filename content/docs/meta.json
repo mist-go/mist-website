@@ -14,8 +14,8 @@
         "components/pointers-references",
 
         "---[ArrowDownUp]Logic---",
-        "variables",
-        "control-flow",
-        "match-patterns"
+        "logic/variables",
+        "logic/control-flow",
+        "logic/match-patterns"
     ]
 }
