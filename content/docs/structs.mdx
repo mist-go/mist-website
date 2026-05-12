@@ -16,7 +16,6 @@ public struct Task {
     public TaskState state,
     public i32 executions,
 }
-
 ```
 
 ## Visibility
@@ -28,7 +27,6 @@ public struct NetworkNode {
     public u32 id,
     str* address,
 }
-
 ```
 
 ## Instantiation
@@ -41,7 +39,6 @@ var task = Task {
     state: TaskState::Pending,
     executions: 0,
 };
-
 ```
 
 ## Generics & Lifetimes
@@ -53,7 +50,6 @@ public struct Buffer<'a, T> {
     public T'a* data,
     public usize len,
 }
-
 ```
 
 ## Key Characteristics
