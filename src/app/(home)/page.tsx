@@ -200,7 +200,7 @@ export default function HomePage() {
          Using 'sticky' instead of 'fixed'. It will stay pinned to the 
          top/center while you scroll through the sections.
       */}
-      <div className="pointer-events-none sticky top-0 right-0 z-50 flex order-first xl:order-last w-full xl:w-[40vw] h-svh items-center justify-center p-10">
+      <div className="hidden pointer-events-none sticky top-0 right-0 z-50 md:flex order-first xl:order-last w-full xl:w-[40vw] h-svh items-center justify-center p-10">
         <div className="w-full max-w-2xl overflow-hidden">
           <motion.div
             className="will-change-transform transform-gpu w-full h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20 pointer-events-auto"
