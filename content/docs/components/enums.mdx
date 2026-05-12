@@ -1,0 +1,57 @@
+---
+title: Enums
+description: Defining algebraic data types with Mist's type-first convention.
+icon: Layers
+---
+
+Enums in Mist serve as powerful algebraic data types (ADTs), maintaining the exact behavior and safety of Rust enums while applying the language-wide `type name` convention for variants that contain data.
+
+## Basic Syntax
+
+An enum can contain unit variants, tuple variants, or struct-like variants. Following Mist's core philosophy, struct-like variants place the type before the identifier.
+
+```rust
+public enum TaskState {
+    Pending,
+    InProgress,
+    Completed,
+    // Struct-like variant using 'type name'
+    Failed {
+        String reason,
+        i32 code,
+    },
+}
+```
+## Variant Types
+
+Mist supports all standard variant shapes, ensuring a 1:1 mapping to the underlying Rust execution model.
+
+```rust
+enum Message {
+    Quit,                          // Unit
+    Move(i32, i32),                // Tuple
+    Write(String),                 // Tuple
+    ChangeColor {                  // Struct-like
+        u8 r, u8 g, u8 b,
+    },
+}
+```
+## Generics & Lifetimes
+
+Just like structs and functions, enums declare generics and lifetimes in a unified block. This is particularly useful for defining custom Result or Option types that handle references.
+
+```rust
+public enum Validation<'a, T> {
+    Valid(T),
+    Invalid {
+        str'a* message,
+        u32 error_id,
+    },
+}
+```
+## Key Characteristics
+
+- **Consistent Member Declaration**: Struct-like variants maintain the `type name` order, ensuring that data modeling feels identical whether you are defining a top-level `struct` or an `enum` variant.
+- **Rust-Native ADTs**: Enums compile directly to Rust enums, allowing for exhaustive pattern matching and zero-cost abstraction.
+- **Shared Visibility**: The `public` modifier at the enum level exports all variants for use in other modules, matching Rust's visibility rules for enums.
+- **Comma-Separated Members**: Fields within struct-like variants are separated by commas, mirroring the syntax used in standard Mist structs.

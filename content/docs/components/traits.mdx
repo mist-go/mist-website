@@ -1,0 +1,61 @@
+---
+title: Traits
+description: Defining shared behavior and contracts with Mist's signature ergonomics.
+icon: Sparkles
+---
+
+Traits in Mist define a set of methods that a type must implement, facilitating polymorphism and shared behavior. While they mirror the logic of Rust traits, they utilize Mist’s **type-first** declaration style for method signatures.
+
+## Defining a Trait
+
+A trait definition lists method signatures that implementing types must satisfy. Like functions, these signatures place the return type before the method name.
+
+```rust
+public trait Drawable {
+    void draw(self*);
+    str* metadata(self*);
+}
+```
+## Implementing a Trait
+
+To implement a trait for a specific type, use the `impl` keyword followed by the trait name and the target type. This block must contain all required methods defined in the trait.
+
+```rust
+impl Drawable for Task {
+    void draw(self*) {
+        println!("Drawing task: {}", self.name);
+    }
+
+    str* metadata(self*) {
+        return self.name;
+    }
+}
+```
+## Default Implementations
+
+Traits can provide default behavior for methods. Types implementing the trait can choose to override these defaults or use the provided implementation.
+
+```rust
+public trait Identifiable {
+    u32 get_id(self*);
+
+    bool is_valid(self*) {
+        return self.get_id() > 0;
+    }
+}
+```
+## Super-traits
+
+Traits can build upon other traits. If a trait requires another trait to be implemented first, use the colon `:` syntax.
+
+```rust
+public trait Animated : Drawable {
+    void animate(self*, f32 delta_time);
+}
+```
+## Key Characteristics
+
+- **Consistent Signatures**: Method signatures within traits follow the language-wide `return_type name(params)` convention.
+- **Explicit Context**: Methods use `self*` or `self mut*` as the first parameter to define how the instance is accessed, mapping directly to Rust's reference rules.
+- **Static Dispatch**: By default, Mist traits leverage Rust's zero-cost generics and monomorphization, ensuring high performance.
+- **Predictable Contracts**: Traits act as strict blueprints; the Mist compiler ensures every implementation perfectly matches the interface before generating the corresponding Rust code.

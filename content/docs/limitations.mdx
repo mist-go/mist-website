@@ -1,0 +1,70 @@
+---
+title: Status & Limitations
+description: Understanding the Alpha state of Mist and our technical roadmap.
+icon: TriangleAlert
+---
+
+Mist is currently in a **Volatile Alpha** stage. Our current priority is exploring **Syntax and Features**. We believe in stabilizing the developer experience and the "feel" of the language before locking in the deep architectural logic of the compiler.
+
+---
+
+## The "Syntax-First" Philosophy
+
+Mist is currently in a phase of rapid iteration. We are intentionally keeping the **Semantics** flexible while we finalize the **Syntax**.
+
+* **The Goal:** Finalize a robust, ergonomic feature set first.
+
+
+* **The Reasoning:** Implementing complex semantic analysis while features are still being added is inefficient. By stabilizing the syntax first, we ensure that adding full semantic depth becomes a cohesive, "single-step" process later in development.
+
+
+
+---
+
+## Current Technical Trade-offs
+
+To allow for this rapid syntax exploration, the compiler currently uses a "Shim" model for certain complex Rust operations.
+
+### 1. The Construction Model
+
+To support Mist's unified **Class and Constructor** model, the compiler uses an experimental memory initialization pattern.
+
+* **Mechanism:** The compiler generates a "shell" using `MaybeUninit`, allowing `self` to be used inside the constructor logic.
+
+
+* **Limitation:** Because full **Definite Assignment Analysis** (semantics) is not yet implemented, the compiler does not verify that every field is assigned. It currently relies on zeroing out memory as a placeholder.
+
+
+* **Future Fix:** Once the syntax is frozen, we will implement the semantic checks required to generate standard, safe Rust struct literals.
+
+
+
+### 2. Inheritance
+
+Inheritance is a major planned feature but is currently **not implemented**.
+
+* **Status:** The syntax for inheritance is being designed, but it will not be functional until the semantic analyzer is built to handle v-tables and memory layouts in the emitted Rust code.
+
+
+
+---
+
+## Feature Volatility
+
+Be aware that because we are focusing on syntax, keywords and structures may change between minor versions. Currently:
+
+* **Access Modifiers:** `public` and private defaults are being tested for various contexts (classes vs. structs, or `public(crate)`).
+
+
+* **Pointers vs. References:** The `*` syntax for references (e.g., `self mut*`) is the current standard but is subject to refinement based on ecosystem feedback.
+
+
+* **Trait Implementations:** The "In-Class" `impl` block is a core feature we are prioritizing for ergonomics.
+
+
+
+---
+
+> **Alpha Warning:** Mist is currently a playground for defining a better way to write systems code. Expect breaking changes as we finalize the surface layer of the language.
+> 
+> 

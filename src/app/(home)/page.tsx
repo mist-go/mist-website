@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, Variants } from "framer-motion";
 
+import "./Home.css";
+
 const MotionLink = motion(Link);
 
 export const mistShowcase = [
@@ -73,24 +75,12 @@ public class PluginRegistry<T> {
         self.prefix = prefix.to_string();
     }
 
-    public void log(self*, LogLevel level, str* message) {
-        match(level) {
-            LogLevel::Info => {
-                println!("{level} {} {}", self.prefix, message);
-            }
-
-            LogLevel::Warning => {
-                println!("{level} {} {}", self.prefix, message);
-            }
-
-            LogLevel::Error => {
-                println!("{level} {} {}", self.prefix, message);
-            }
-        }
+    void log(self*, LogLevel level, str* message) {
+        println!("{level} {} {}", self.prefix, message);
     }
 
     impl fmt::Display {
-        fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
+        std::fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
             return write!(f, "logger ({})", self.prefix);
         }
     }
@@ -152,7 +142,7 @@ function ShowSection({
   return (
     <motion.section
       ref={ref}
-      className="h-svh p-10 md:p-20 w-full flex flex-col items-center justify-center"
+      className="h-svh p-10 md:p-20 w-full flex flex-col items-center justify-center snap-center"
     >
       <motion.div
         className="flex flex-col gap-2 items-center justify-center"
@@ -175,7 +165,7 @@ function ShowSection({
             <MotionLink
               variants={item}
               className="bg-fd-primary/15 text-fd-primary/90 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-primary/20 hover:text-fd-primary flex gap-2 items-center"
-              href="/docs/get-started"
+              href="/docs"
             >
               <RocketIcon className="w-5 h-5" />
               Get Started
@@ -200,51 +190,45 @@ export default function HomePage() {
   const [currentText, setCurrentText] = useState(mistShowcase[0]?.code || "");
 
   return (
-    <div className="flex w-full flex-col xl:flex-row">
-      <div className="flex fixed xl:top-0 xl:right-0 w-svw xl:w-[40vw] h-svh xl:items-center mt-10 justify-center z-50 pointer-events-none">
-        <div className="xl:w-full overflow-hidden">
+    <div className="h-[calc(100vh-58px)] overflow-auto snap-y snap-mandatory scroll-smooth no-scrollbar relative flex flex-col xl:flex-row">
+      <div className="hidden pointer-events-none sticky top-0 right-0 z-50 md:flex order-first xl:order-last w-full xl:w-[40vw] h-svh items-center justify-center p-10 no-scrollbar">
+        <div className="w-full max-w-2xl overflow-hidden no-scrollbar">
           <motion.div
-            className="w-max h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20"
+            className="will-change-transform transform-gpu w-full h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20 pointer-events-auto"
             variants={item}
             initial="hidden"
             animate="show"
           >
-            <MorphCode code={currentText} />
+            <MorphCode code={currentText} key="morph-code-logic" />
           </motion.div>
         </div>
       </div>
 
-      <div className="flex-1">
-        <div className="mt-10 xl:mt-0">
-          {mistShowcase.map((show) => (
-            <ShowSection
-              key={show.title}
-              show={show}
-              setActiveCode={setCurrentText}
-            />
-          ))}
-        </div>
+      <div className="flex-1 w-full xl:w-[60vw]">
+        {mistShowcase.map((show) => (
+          <ShowSection
+            key={show.title}
+            show={show}
+            setActiveCode={setCurrentText}
+          />
+        ))}
       </div>
-      <div className="xl:w-[40vw]" />
-      {/* <div className="absolute left-1/2 bottom-1">
-        
-      </div> */}
+
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-50"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-1 text-muted-foreground"
         >
-          <ChevronsDownIcon className="h-6 w-6 text-fd-primary" strokeWidth={1.5} />
+          <ChevronsDownIcon
+            className="h-6 w-6 text-fd-primary"
+            strokeWidth={1.5}
+          />
         </motion.div>
       </motion.div>
     </div>

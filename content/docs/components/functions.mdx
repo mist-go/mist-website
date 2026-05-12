@@ -1,0 +1,69 @@
+---
+title: Functions
+description: Defining execution blocks with C-style ergonomics and Rust-powered safety.
+icon: SquareFunction
+---
+
+Functions are the primary unit of execution in Mist. They prioritize a traditional declaration order, placing the return type before the identifier to ensure signatures remain easy to scan in complex systems.
+
+## Basic Syntax
+
+A standard function requires a return type, a name, and a body. Use the `void` keyword for functions that do not return a value.
+
+```cpp
+i32 add(i32 a, i32 b) {
+    return a + b;
+}
+
+void log_status(str* message) {
+    println!("{}", message);
+}
+```
+
+## Visibility & Exports
+
+Functions are private to their module by default. The `public` modifier exports the function for cross-module access.
+
+```cpp
+public i32 get_version() {
+    return 1;
+}
+```
+
+## Mutable Parameters
+
+Parameters follow Rust’s ownership rules but use Mist’s local variable syntax. Use `mut` to allow a function to modify its local binding of a value.
+
+```cpp
+void update_score(i32 mut current_score, i32 bonus) {
+    current_score = current_score + bonus;
+}
+```
+
+## Generics & Lifetimes
+
+Mist integrates type abstraction and memory management into a single generic block. Lifetimes and type parameters share the `< >` bracket following the identifier.
+
+```rust
+public str'a* choose_longer<'a, T: Display>(str'a* s1, str'a* s2, T meta) {
+    println!("Metadata: {}", meta);
+    return if (s1.len() > s2.len()) { s1 } else { s2 };
+}
+```
+
+## Attributes & Metadata
+
+Metadata is applied via the `#[attr]` syntax directly above the declaration for compiler hints or testing.
+
+```cpp
+#[inline]
+public bool is_active(u32 id) {
+    return id > 0;
+}
+```
+
+## Key Characteristics
+
+* **Scannable Signatures:** Placing return types first allows for rapid identification of a function's output.
+* **Unified Abstraction:** Lifetimes and type constraints are declared in one location, reducing signature noise.
+* **Zero-Cost Mapping:** Every function maps directly to a Rust `fn`, maintaining performance and ecosystem compatibility.

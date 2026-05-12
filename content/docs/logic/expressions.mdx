@@ -1,0 +1,83 @@
+---
+title: Expressions
+description: The building blocks of logic, from literals to complex postfix chains.
+icon: Binary
+---
+
+Expressions in Mist are the fundamental units that evaluate to a value. The syntax follows a clean **prefix → primary → postfix** chain, providing a predictable structure that maps closely to Rust's mental model.
+
+## Primary Expressions
+
+Primary expressions are the starting point of any logic chain. These include literal values, paths to static members, or grouped expressions in tuples.
+
+```java
+// Literals and paths
+var x = 42;
+var y = Math::PI;
+
+// Tuples
+var coordinates = (10, 20, 30);
+
+```
+
+## Postfix Operations
+
+Postfix expressions allow you to build on a primary value. This includes calling functions, accessing fields, indexing arrays, or initializing structs.
+
+```java
+// Field access and method/function calls
+var len = list.length();
+
+// Struct initialization
+var task = Task {
+    name: "Drafting",
+    priority: 1,
+};
+
+// Indexing and Macro calls
+var first = items[0];
+println!("Value: {}", first); // Macro call via '!'
+
+```
+
+## Prefix Operations
+
+Prefixes modify the primary expression that follows them. Mist uses these for logical negation, dereferencing, and creating references.
+
+```java
+var mut value = 10;
+
+var ref = &value;         // Reference
+var mref = &mut value;    // Mutable reference
+var val = *ref;           // Dereference
+var is_false = !true;     // Logical NOT
+
+```
+
+## Binary Operations
+
+Binary operations are applied as postfixes to an expression, following a `bin_op ~ expr` pattern. This supports all standard arithmetic, comparison, and logical operators.
+
+```java
+var sum = 10 + 20;
+var is_equal = (x == y);
+var complex = (a + b) * (c / d);
+
+```
+
+## Operator Table
+
+Mist supports the following binary operators for comparisons and arithmetic:
+
+| Category       | Operators                        |
+| -------------- | -------------------------------- |
+| **Arithmetic** | `+`, `-`, `*`, `/`, `%`          |
+| **Comparison** | `==`, `!=`, `<`, `>`, `<=`, `>=` |
+| **Logical**    | `&&`, `\|\|`                     |
+
+## Key Characteristics
+
+- **Predictable Chaining**: The `prefix* ~ primary ~ postfix*` grammar ensures that complex expressions are parsed consistently, whether you are dereferencing a function call or indexing a struct field.
+- **Rust-Style References**: While the pointer syntax `type*` is used in declarations, expressions use `&` and `&mut` to create references, maintaining compatibility with Rust's borrow checker.
+- **Macro Integration**: Macros are treated as a postfix operation (`!`), allowing them to be called on identifiers just like standard functions.
+- **Unified Tuples**: Tuples are primary expressions, allowing them to be passed, returned, or destructured seamlessly within the expression tree.

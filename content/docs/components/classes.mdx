@@ -1,0 +1,64 @@
+---
+title: Classes
+description: Unified data and behavior with Java-style organization and Rust-powered execution.
+icon: Shapes
+---
+
+Classes in Mist bridge the gap between Java's organizational structure and Rust's performance. They allow you to define data fields, constructors, instance methods, and trait implementations within a single, cohesive block.
+
+## Basic Syntax
+
+A class groups fields and methods together. Fields follow the `type name` convention, and methods define their logic directly within the class body.
+
+```cpp
+public class Logger {
+    String prefix;
+
+    public void info(self*, str* message) {
+        self.log(LogLevel::Info, message);
+    }
+
+    void log(self*, LogLevel level, str* message) {
+        println!("{level} {} {}", self.prefix, message);
+    }
+}
+```
+
+## The Constructor
+
+Unlike languages that use the class name for initialization, Mist uses the explicit `constructor` keyword. This makes the entry point of the class unmistakable.
+
+```cpp
+public constructor(str* prefix) {
+    self.prefix = prefix.to_string();
+}
+```
+
+## Instance Methods & `self`
+
+Mist maintains Rust's explicit context handling. Any method that needs to access or modify class data must include `self*` (or `self mut*` for mutations) as its first parameter.
+
+```cpp
+public void warning(self*, str* message) {
+    self.log(LogLevel::Warning, message);
+}
+```
+
+## Trait Implementations
+
+One of Mist's most powerful features is the ability to nest trait implementations directly within the class block. This keeps the logic for how a type behaves (e.g., how it is displayed) physically coupled with the type definition.
+
+```cpp
+impl fmt::Display {
+    std::fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
+        return write!(f, "logger ({})", self.prefix);
+    }
+}
+```
+
+## Key Characteristics
+
+- **Unified Scope**: Data, behavior, and trait logic live in one place, eliminating the friction of jumping between `struct` and `impl` blocks.
+- **Explicit Context**: The use of `self*` ensures that the relationship between a method and its instance is always transparent.
+- **Encapsulation**: Visibility modifiers (`public`) allow you to expose a clean API while keeping internal helper methods and state private to the class.
+- **Zero-Cost Classes**: Under the hood, Mist desugars these into idiomatic Rust structs and implementation blocks, ensuring no runtime overhead compared to raw Rust.

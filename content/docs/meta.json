@@ -1,0 +1,21 @@
+{
+    "pages": [
+        "---[Rocket]Introduction---",
+        "index",
+        "philosophy",
+        "limitations",
+
+        "---[Box]Components---",
+        "components/functions",
+        "components/structs",
+        "components/enums",
+        "components/classes",
+        "components/traits",
+        "components/pointers-references",
+
+        "---[ArrowDownUp]Logic---",
+        "logic/variables",
+        "logic/control-flow",
+        "logic/expressions"
+    ]
+}
