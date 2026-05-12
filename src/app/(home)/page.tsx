@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, Variants } from "framer-motion";
 
+import "./Home.css";
+
 const MotionLink = motion(Link);
 
 export const mistShowcase = [
@@ -140,7 +142,7 @@ function ShowSection({
   return (
     <motion.section
       ref={ref}
-      className="h-svh p-10 md:p-20 w-full flex flex-col items-center justify-center"
+      className="h-svh p-10 md:p-20 w-full flex flex-col items-center justify-center snap-center"
     >
       <motion.div
         className="flex flex-col gap-2 items-center justify-center"
@@ -188,48 +190,57 @@ export default function HomePage() {
   const [currentText, setCurrentText] = useState(mistShowcase[0]?.code || "");
 
   return (
-    <div className="flex w-full flex-col xl:flex-row">
-      <div className="flex fixed xl:top-0 xl:right-0 w-svw xl:w-[40vw] h-svh xl:items-center mt-10 justify-center z-50 pointer-events-none">
-        <div className="xl:w-full overflow-hidden">
+    /* 
+       1. Move overflow-y-auto and snap-y to the ROOT div. 
+       Now the entire screen is the scrollable "track".
+    */
+    <div className="h-svh overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar relative flex flex-col xl:flex-row">
+      {/* 
+         THE RIGHT SIDE (MorphCode)
+         Using 'sticky' instead of 'fixed'. It will stay pinned to the 
+         top/center while you scroll through the sections.
+      */}
+      <div className="pointer-events-none sticky top-0 right-0 z-50 flex order-first xl:order-last w-full xl:w-[40vw] h-svh items-center justify-center p-10">
+        <div className="w-full max-w-2xl overflow-hidden">
           <motion.div
-            className="w-max h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20"
+            className="will-change-transform transform-gpu w-full h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20 pointer-events-auto"
             variants={item}
             initial="hidden"
             animate="show"
           >
-            <MorphCode code={currentText} />
+            {/* 
+               We use a key here to help React/Framer distinguish 
+               morphing vs unmounting if needed 
+            */}
+            <MorphCode code={currentText} key="morph-code-logic" />
           </motion.div>
         </div>
       </div>
 
-      <div className="flex-1">
-        <div className="mt-10 xl:mt-0">
-          {mistShowcase.map((show) => (
-            <ShowSection
-              key={show.title}
-              show={show}
-              setActiveCode={setCurrentText}
-            />
-          ))}
-        </div>
+      {/* 
+         THE SECTIONS 
+         They now live in the main scroll flow. 
+      */}
+      <div className="flex-1 w-full xl:w-[60vw]">
+        {mistShowcase.map((show) => (
+          <ShowSection
+            key={show.title}
+            show={show}
+            setActiveCode={setCurrentText}
+          />
+        ))}
       </div>
-      <div className="xl:w-[40vw]" />
-      {/* <div className="absolute left-1/2 bottom-1">
-        
-      </div> */}
+
+      {/* Scroll Indicator - Use fixed so it stays relative to screen */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-50"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-1 text-muted-foreground"
         >
           <ChevronsDownIcon
