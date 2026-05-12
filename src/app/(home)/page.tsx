@@ -190,37 +190,20 @@ export default function HomePage() {
   const [currentText, setCurrentText] = useState(mistShowcase[0]?.code || "");
 
   return (
-    /* 
-       1. Move overflow-y-auto and snap-y to the ROOT div. 
-       Now the entire screen is the scrollable "track".
-    */
-    <div className="h-svh overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar relative flex flex-col xl:flex-row">
-      {/* 
-         THE RIGHT SIDE (MorphCode)
-         Using 'sticky' instead of 'fixed'. It will stay pinned to the 
-         top/center while you scroll through the sections.
-      */}
-      <div className="hidden pointer-events-none sticky top-0 right-0 z-50 md:flex order-first xl:order-last w-full xl:w-[40vw] h-svh items-center justify-center p-10">
-        <div className="w-full max-w-2xl overflow-hidden">
+    <div className="h-[calc(100vh-58px)] overflow-auto snap-y snap-mandatory scroll-smooth no-scrollbar relative flex flex-col xl:flex-row">
+      <div className="hidden pointer-events-none sticky top-0 right-0 z-50 md:flex order-first xl:order-last w-full xl:w-[40vw] h-svh items-center justify-center p-10 no-scrollbar">
+        <div className="w-full max-w-2xl overflow-hidden no-scrollbar">
           <motion.div
             className="will-change-transform transform-gpu w-full h-auto border border-fd-border p-5 rounded-xl min-h-24 backdrop-blur bg-black dark:bg-black/20 pointer-events-auto"
             variants={item}
             initial="hidden"
             animate="show"
           >
-            {/* 
-               We use a key here to help React/Framer distinguish 
-               morphing vs unmounting if needed 
-            */}
             <MorphCode code={currentText} key="morph-code-logic" />
           </motion.div>
         </div>
       </div>
 
-      {/* 
-         THE SECTIONS 
-         They now live in the main scroll flow. 
-      */}
       <div className="flex-1 w-full xl:w-[60vw]">
         {mistShowcase.map((show) => (
           <ShowSection
@@ -231,7 +214,6 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Scroll Indicator - Use fixed so it stays relative to screen */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
