@@ -6,12 +6,12 @@
         "limitations",
 
         "---[Box]Components---",
-        "functions",
-        "structs",
-        "enums",
-        "classes",
-        "traits",
-        "pointers-references",
+        "components/functions",
+        "components/structs",
+        "components/enums",
+        "components/classes",
+        "components/traits",
+        "components/pointers-references",
 
         "---[ArrowDownUp]Logic---",
         "variables",
