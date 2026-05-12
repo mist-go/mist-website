@@ -1,52 +1,97 @@
 ---
-title: Philosophy
-description: Discover the philosophy and architecture behind Mist.
-icon: Brain
+title: Get Started
+description: This guide will walk you through installing the Mist CLI, setting up your development environment, and compiling your very first program.
+icon: Rocket
 ---
 
-**Mist** is a systems programming language that compiles directly into Rust.
+## 1. Installation
 
-It was designed to make high-performance development feel more direct and less mentally taxing, without compromising on the safety, performance, or ecosystem richness that Rust provides.
+Mist is currently distributed as a Cargo crate. To get started, you'll need to have the Rust toolchain installed.
 
-Mist is not a replacement for Rust. Instead, it serves as a more ergonomic surface layer for writing Rust-compatible systems code. It allows you to focus on the "what" while the compiler handles the "how" of idiomatic Rust generation.
+Run the following command to install the Mist compiler:
 
----
+```bash title="Terminal"
+cargo install mist-lang@0.0.1-alpha2
+```
 
-## Philosophy: Systems Programming, Refined
+Once the installation finishes, verify it by checking the version:
 
-Mist is built on the belief that systems programming should feel **calm, predictable, and easy to reason about**.
-
-When working close to the metal, developers must balance performance, correctness, and structure. As projects scale, the "expression overhead"—the mental energy required to satisfy complex syntax—often creates friction. Mist reduces this friction by:
-
-* **Focusing on Flow:** Code should feel direct to write and require minimal "re-contextualization" when revisited months later.
-
-
-* **Reducing Mental Friction:** By simplifying the surface syntax, your attention stays on solving the problem, not fighting the mechanics of expression.
-
-
-* **Predictable Abstractions:** Every feature in Mist is designed to be transparent, ensuring you always understand the underlying system behavior.
-
-
+```bash title="Terminal"
+mist version
+```
 
 ---
 
-## What Mist Is
+## 2. Setting Up Your Project
 
-Mist is a compiled-to-Rust language specifically engineered for developers who need Rust's power but want a leaner authoring experience.
+Mist works alongside Cargo to handle the heavy lifting. Follow these steps to prepare your environment for your first "Hello World" program.
 
-### Key Characteristics:
+### Initialize a New Project
 
-* **Native Ecosystem Integration:** Mist integrates directly with Cargo and existing Rust crates.
+If you haven't already, create a new Cargo project and navigate into the directory:
 
+```bash title="Terminal"
+cargo new my-mist-app
+cd my-mist-app
+```
 
-* **Idiomatic Output:** It compiles into clean, readable Rust code rather than opaque machine logic.
+### Configure Mist
 
+Create a `mist.json` file in your root directory. This tells the compiler where to look for your source code and where to place the generated Rust files.
 
-* **Zero-Cost Performance:** There is no runtime, no garbage collector, and no performance penalty.
+```json title="mist.json"
+{
+  "src": "src",
+  "output": "build"
+}
+```
 
+### Link Cargo to Mist
 
-* **Grounded Safety:** Mist remains fully powered by Rust’s type system and execution model.
+Since Mist compiles down to Rust, you need to point Cargo to the generated output. Update your `Cargo.toml` to include the following:
 
+```toml title="Cargo.toml"
+[[bin]]
+name = "main"
+path = "build/main.rs"
+```
 
+> **Pro Tip:** You’ll probably want to add `/build` to your `.gitignore` file to keep your repository clean!
 
-Mist is especially valuable for large-scale codebases where readability is paramount, but the strict guarantees of a systems language are non-negotiable.
+---
+
+## 3. Your First Program
+
+Now for the fun part! Create a new file at `src/main.mist` and add the following code:
+
+```cpp title="src/main.mist"
+void main() {
+    println!("Hello World!");
+}
+```
+
+### Build and Run
+
+To turn your Mist code into an executable, use the `build` command:
+
+```bash title="Terminal"
+mist build
+```
+
+Once the build is successful, you can run your program using standard Cargo commands:
+
+```bash title="Terminal"
+cargo run
+```
+
+> **Pro Tip:** If you encounter any rust errors, head to the build directory and analyze the output, if you see anything unusual in the output, report the issue at https://github.com/mist-go/mist
+
+---
+
+## Command Reference
+
+| Command        | Description                                                      |
+| -------------- | ---------------------------------------------------------------- |
+| `mist build`   | Compiles your `.mist` files into Rust code in the output folder. |
+| `mist version` | Displays the current version of the Mist compiler.               |
+| `mist help`    | Stuck? Use this to see all available commands and options.       |

@@ -175,7 +175,7 @@ function ShowSection({
             <MotionLink
               variants={item}
               className="bg-fd-primary/15 text-fd-primary/90 p-3 px-4.5 rounded-xl cursor-pointer hover:bg-fd-primary/20 hover:text-fd-primary flex gap-2 items-center"
-              href="/docs/get-started"
+              href="/docs"
             >
               <RocketIcon className="w-5 h-5" />
               Get Started
@@ -244,7 +244,10 @@ export default function HomePage() {
           }}
           className="flex flex-col items-center gap-1 text-muted-foreground"
         >
-          <ChevronsDownIcon className="h-6 w-6 text-fd-primary" strokeWidth={1.5} />
+          <ChevronsDownIcon
+            className="h-6 w-6 text-fd-primary"
+            strokeWidth={1.5}
+          />
         </motion.div>
       </motion.div>
     </div>
