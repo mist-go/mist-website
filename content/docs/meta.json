@@ -1,0 +1,21 @@
+{
+    "pages": [
+        "---[Rocket]Introduction---",
+        "index",
+        "get-started",
+        "limitations",
+
+        "---[Box]Components---",
+        "functions",
+        "structs",
+        "enums",
+        "classes",
+        "traits",
+        "pointers-references",
+
+        "---[ArrowDownUp]Logic---",
+        "variables",
+        "control-flow",
+        "match-patterns"
+    ]
+}
