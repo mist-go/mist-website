@@ -1,0 +1,93 @@
+---
+title: Control Flow
+description: Directing execution with expression-based logic, pattern matching, and traditional loop structures.
+icon: Split
+---
+
+Control flow in Mist provides a bridge between C-style procedural logic and Rust's expression-oriented design. While many structures can return values, they follow a strict syntax for blocks and statements.
+
+## Conditionals
+
+The `if` statement evaluates a boolean expression. It supports multiple `else if` branches and an optional `else` block.
+
+```cpp
+if (score > 50) {
+    println!("Pass");
+} else if (score == 50) {
+    println!("Borderline");
+} else {
+    println!("Fail");
+}
+```
+
+## Match
+
+The `match` statement provides exhaustive pattern matching. Currently, every match arm requires a block `{}` following the `=>` operator.
+
+```cpp
+match (task_state) {
+    TaskState::Pending => {
+        println!("Queued");
+    }
+    TaskState::Failed { reason, code } => {
+        println!("Error {}: {}", code, reason);
+    }
+    _ => {
+        println!("Other state");
+    }
+}
+```
+
+## Loops
+
+Mist supports both functional iteration and traditional low-level loop control.
+
+### C-Style For Loop
+
+For manual iteration control, Mist supports the standard three-part `for` loop: initialization, condition, and post-iteration statement.
+
+```cpp
+for (var mut i = 0; i < 10; i = i + 1;) {
+    println!("Index: {}", i);
+}
+```
+
+### For-In Loop
+
+The `for-in` loop iterates over collections or iterators using Mist's pattern matching system.
+
+```cpp
+for (var item in collection) {
+    process(item);
+}
+
+// Destructuring within the loop
+for ((i32 x, i32 y) in coordinates) {
+    draw_point(x, y);
+}
+```
+
+### While Loop
+
+The `while` loop continues execution as long as the parenthesized expression evaluates to `true`.
+
+```cpp
+while (active) {
+    wait_for_event();
+}
+```
+
+## Jump Statements
+
+Execution flow can be interrupted or redirected using standard jump keywords.
+
+- **`return`**: Exits the current function, optionally passing back a value.
+- **`break`**: Terminates the innermost looping construct.
+- **`continue`**: Skips the remainder of the current loop iteration and proceeds to the next.
+
+## Key Characteristics
+
+- **Pattern Integration**: Loops and match arms utilize Mist's pattern system, allowing for seamless data destructuring during iteration.
+- **Explicit Scoping**: Match items currently require explicit blocks, ensuring clear boundaries for variable shadowing and local logic.
+- **Familiar Iteration**: The inclusion of C-style `for` loops provides fine-grained control for performance-critical logic where simple iteration is insufficient.
+- **Rust-Native Safety**: Despite the procedural syntax, these structures compile to safe Rust, maintaining exhaustive checking and memory safety.

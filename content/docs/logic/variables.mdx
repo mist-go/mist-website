@@ -36,6 +36,18 @@ u64 large_id = 1000234;
 bool is_active = true;
 ```
 
+## Pattern Destructuring
+
+Because variable declarations are patterns, you can destructure tuples or structures directly. This keeps data extraction clean and avoids manual indexing.
+
+```rust
+// Destructuring a tuple into local variables
+(i32, i32) (x, y) = get_coordinates();
+
+// Using 'var' within a pattern for inference
+(String, i32) (name, age) = get_user_info();
+```
+
 ## Constants
 
 Constants are immutable values that are evaluated at compile time. They require an explicit type and follow the `const` keyword.
