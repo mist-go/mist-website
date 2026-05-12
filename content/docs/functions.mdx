@@ -18,7 +18,6 @@ i32 add(i32 a, i32 b) {
 void log_status(str* message) {
     println!("{}", message);
 }
-
 ```
 
 ## Visibility & Exports
@@ -29,7 +28,6 @@ Functions are private to their module by default. The `public` modifier exports 
 public i32 get_version() {
     return 1;
 }
-
 ```
 
 ## Mutable Parameters
@@ -40,7 +38,6 @@ Parameters follow Rust’s ownership rules but use Mist’s local variable synta
 void update_score(i32 mut current_score, i32 bonus) {
     current_score = current_score + bonus;
 }
-
 ```
 
 ## Generics & Lifetimes
@@ -52,7 +49,6 @@ public str'a* choose_longer<'a, T: Display>(str'a* s1, str'a* s2, T meta) {
     println!("Metadata: {}", meta);
     return if (s1.len() > s2.len()) { s1 } else { s2 };
 }
-
 ```
 
 ## Attributes & Metadata
@@ -64,7 +60,6 @@ Metadata is applied via the `#[attr]` syntax directly above the declaration for 
 public bool is_active(u32 id) {
     return id > 0;
 }
-
 ```
 
 ## Key Characteristics

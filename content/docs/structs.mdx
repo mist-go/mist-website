@@ -1,0 +1,64 @@
+---
+title: Structs
+description: Data modeling using Mist's type-first convention.
+icon: Form
+---
+
+Structs in Mist follow the same structural logic as Rust, but apply the language-wide `type name` declaration style and allow for comma-separated field grouping.
+
+## Basic Syntax
+
+A struct is defined by its name followed by a block of fields. Each field follows the Mist convention of placing the type before the identifier, separated by commas.
+
+```rust
+public struct Task {
+    public String name,
+    public TaskState state,
+    public i32 executions,
+}
+
+```
+
+## Visibility
+
+Use the `public` modifier to make the struct or its individual fields accessible from other modules.
+
+```cpp
+public struct NetworkNode {
+    public u32 id,
+    str* address,
+}
+
+```
+
+## Instantiation
+
+Structs are instantiated using the standard brace syntax.
+
+```cpp
+var task = Task {
+    name: "Initialize".to_string(),
+    state: TaskState::Pending,
+    executions: 0,
+};
+
+```
+
+## Generics & Lifetimes
+
+Generics and lifetimes are declared in angle brackets after the struct name. Lifetimes are associated with the reference/pointer type within the field declarations.
+
+```cpp
+public struct Buffer<'a, T> {
+    public T'a* data,
+    public usize len,
+}
+
+```
+
+## Key Characteristics
+
+- **Type-First Declaration**: Fields use the `type name` order to match function parameters and variable declarations.
+- **Comma-Separated Members**: Fields are separated by commas, maintaining a clean and consistent delimiter style.
+- **Rust Compatibility**: Maps 1:1 to Rust structs, ensuring zero-cost abstraction and full ecosystem interoperability.
+- **Direct Visibility**: The `public` keyword replaces `pub` for a more consistent modifier language across the codebase.
