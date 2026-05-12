@@ -73,24 +73,12 @@ public class PluginRegistry<T> {
         self.prefix = prefix.to_string();
     }
 
-    public void log(self*, LogLevel level, str* message) {
-        match(level) {
-            LogLevel::Info => {
-                println!("{level} {} {}", self.prefix, message);
-            }
-
-            LogLevel::Warning => {
-                println!("{level} {} {}", self.prefix, message);
-            }
-
-            LogLevel::Error => {
-                println!("{level} {} {}", self.prefix, message);
-            }
-        }
+    void log(self*, LogLevel level, str* message) {
+        println!("{level} {} {}", self.prefix, message);
     }
 
     impl fmt::Display {
-        fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
+        std::fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
             return write!(f, "logger ({})", self.prefix);
         }
     }
