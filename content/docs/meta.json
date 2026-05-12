@@ -16,6 +16,6 @@
         "---[ArrowDownUp]Logic---",
         "logic/variables",
         "logic/control-flow",
-        "logic/match-patterns"
+        "logic/expressions"
     ]
 }
