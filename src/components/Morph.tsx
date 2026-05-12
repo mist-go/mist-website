@@ -39,7 +39,7 @@ export default function MorphCode({ code, lang = "rust" }: Props) {
   }, [code, lang]);
 
   return (
-    <pre className="text-sm">
+    <pre className="text-sm overflow-x-scroll overflow-y-hidden">
       <code>
         <AnimatePresence mode="popLayout">
           {lines.map((line, lineIndex) => (
