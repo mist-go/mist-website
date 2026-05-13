@@ -10,7 +10,7 @@ Expressions in Mist are the fundamental units that evaluate to a value. The synt
 
 Primary expressions are the starting point of any logic chain. These include literal values, paths to static members, or grouped expressions in tuples.
 
-```java
+```mist
 // Literals and paths
 var x = 42;
 var y = Math::PI;
@@ -24,7 +24,7 @@ var coordinates = (10, 20, 30);
 
 Postfix expressions allow you to build on a primary value. This includes calling functions, accessing fields, indexing arrays, or initializing structs.
 
-```java
+```mist
 // Field access and method/function calls
 var len = list.length();
 
@@ -44,7 +44,7 @@ println!("Value: {}", first); // Macro call via '!'
 
 Prefixes modify the primary expression that follows them. Mist uses these for logical negation, dereferencing, and creating references.
 
-```java
+```mist
 var mut value = 10;
 
 var ref = &value;         // Reference
@@ -58,7 +58,7 @@ var is_false = !true;     // Logical NOT
 
 Binary operations are applied as postfixes to an expression, following a `bin_op ~ expr` pattern. This supports all standard arithmetic, comparison, and logical operators.
 
-```java
+```mist
 var sum = 10 + 20;
 var is_equal = (x == y);
 var complex = (a + b) * (c / d);

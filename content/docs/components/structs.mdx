@@ -10,21 +10,21 @@ Structs in Mist follow the same structural logic as Rust, but apply the language
 
 A struct is defined by its name followed by a block of fields. Each field follows the Mist convention of placing the type before the identifier, separated by commas.
 
-```rust
-public struct Task {
-    public String name,
-    public TaskState state,
-    public i32 executions,
+```mist
+pub struct Task {
+    pub String name,
+    pub TaskState state,
+    pub i32 executions,
 }
 ```
 
 ## Visibility
 
-Use the `public` modifier to make the struct or its individual fields accessible from other modules.
+Use the `pub` modifier to make the struct or its individual fields accessible from other modules.
 
-```cpp
-public struct NetworkNode {
-    public u32 id,
+```mist
+pub struct NetworkNode {
+    pub u32 id,
     str* address,
 }
 ```
@@ -33,7 +33,7 @@ public struct NetworkNode {
 
 Structs are instantiated using the standard brace syntax.
 
-```cpp
+```mist
 var task = Task {
     name: "Initialize".to_string(),
     state: TaskState::Pending,
@@ -45,10 +45,10 @@ var task = Task {
 
 Generics and lifetimes are declared in angle brackets after the struct name. Lifetimes are associated with the reference/pointer type within the field declarations.
 
-```cpp
-public struct Buffer<'a, T> {
-    public T'a* data,
-    public usize len,
+```mist
+pub struct Buffer<'a, T> {
+    pub T'a* data,
+    pub usize len,
 }
 ```
 
@@ -57,4 +57,4 @@ public struct Buffer<'a, T> {
 - **Type-First Declaration**: Fields use the `type name` order to match function parameters and variable declarations.
 - **Comma-Separated Members**: Fields are separated by commas, maintaining a clean and consistent delimiter style.
 - **Rust Compatibility**: Maps 1:1 to Rust structs, ensuring zero-cost abstraction and full ecosystem interoperability.
-- **Direct Visibility**: The `public` keyword replaces `pub` for a more consistent modifier language across the codebase.
+- **Direct Visibility**: The `pub` keyword replaces `pub` for a more consistent modifier language across the codebase.

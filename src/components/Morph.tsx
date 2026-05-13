@@ -1,21 +1,28 @@
 "use client";
 
-import { BundledLanguage, codeToTokens } from "shiki";
+import { BundledLanguage, codeToTokens, createHighlighter } from "shiki";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import mist from "../../public/mist.tmLanguage.json";
 
 interface Props {
   code: string;
-  lang?: BundledLanguage;
 }
 
-export default function MorphCode({ code, lang = "rust" }: Props) {
+const highlighterPromise = createHighlighter({
+  themes: ["github-dark"],
+  langs: [mist],
+});
+
+export default function MorphCode({ code }: Props) {
   const [lines, setLines] = useState<any[][]>([]);
 
   useEffect(() => {
     async function run() {
-      const result = await codeToTokens(code, {
-        lang,
+      const highlighter = await highlighterPromise;
+
+      const result = highlighter.codeToTokens(code, {
+        lang: "mist" as any,
         theme: "github-dark",
       });
 
@@ -36,7 +43,7 @@ export default function MorphCode({ code, lang = "rust" }: Props) {
     }
 
     run();
-  }, [code, lang]);
+  }, [code]);
 
   return (
     <pre className="text-sm overflow-x-scroll overflow-y-hidden">

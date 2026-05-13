@@ -10,8 +10,8 @@ Enums in Mist serve as powerful algebraic data types (ADTs), maintaining the exa
 
 An enum can contain unit variants, tuple variants, or struct-like variants. Following Mist's core philosophy, struct-like variants place the type before the identifier.
 
-```rust
-public enum TaskState {
+```mist
+pub enum TaskState {
     Pending,
     InProgress,
     Completed,
@@ -26,7 +26,7 @@ public enum TaskState {
 
 Mist supports all standard variant shapes, ensuring a 1:1 mapping to the underlying Rust execution model.
 
-```rust
+```mist
 enum Message {
     Quit,                          // Unit
     Move(i32, i32),                // Tuple
@@ -40,8 +40,8 @@ enum Message {
 
 Just like structs and functions, enums declare generics and lifetimes in a unified block. This is particularly useful for defining custom Result or Option types that handle references.
 
-```rust
-public enum Validation<'a, T> {
+```mist
+pub enum Validation<'a, T> {
     Valid(T),
     Invalid {
         str'a* message,
@@ -53,5 +53,5 @@ public enum Validation<'a, T> {
 
 - **Consistent Member Declaration**: Struct-like variants maintain the `type name` order, ensuring that data modeling feels identical whether you are defining a top-level `struct` or an `enum` variant.
 - **Rust-Native ADTs**: Enums compile directly to Rust enums, allowing for exhaustive pattern matching and zero-cost abstraction.
-- **Shared Visibility**: The `public` modifier at the enum level exports all variants for use in other modules, matching Rust's visibility rules for enums.
+- **Shared Visibility**: The `pub` modifier at the enum level exports all variants for use in other modules, matching Rust's visibility rules for enums.
 - **Comma-Separated Members**: Fields within struct-like variants are separated by commas, mirroring the syntax used in standard Mist structs.

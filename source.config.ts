@@ -5,6 +5,7 @@ import {
 } from "fumadocs-mdx/config";
 import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { z } from "zod";
+import mist from "./public/mist.tmLanguage.json";
 
 // You can customize Zod schemas for frontmatter and `meta.json` here
 // see https://fumadocs.dev/docs/mdx/collections
@@ -33,6 +34,12 @@ export const blogPosts = defineCollections({
 
 export default defineConfig({
   mdxOptions: {
-    // MDX options
+    rehypeCodeOptions: {
+      langs: [mist],
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
   },
 });

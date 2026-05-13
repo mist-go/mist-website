@@ -1,0 +1,66 @@
+---
+title: New Memory System Proposition
+author: Klesti Selimaj
+date: 2026-05-14
+---
+
+First of all i want to thank anyone who used or tried Mist, it's a literal dream project of mine that i attempted many times, years ago.
+
+And i also released the syntax highlighting VSCode extension: https://marketplace.visualstudio.com/items?itemName=selimaj-dev.mist-syntax
+
+## Current problem
+As i'm developing this language for Rust, i keep noticing the amount of posts of frustration i see online, just like the ones i would make, and i impulsively check out other languages, maybe it's not worth using Rust after all?
+The pattern is clear:
+- Lifetimes have terrible syntax, and they are hard to understand, even for experienced Rust developers.
+- Lifetimes are limiting, making it difficult to express certain patterns where in other languages this would be straightforward.
+- The borrow checker can be frustrating, especially for newcomers, and it can lead to a lot of trial and error to get the code to compile.
+
+## New proposition (Scope Counting)
+I want to propose a new memory system (to my understanding), Scope Counting, which you have to see in action to understand it.
+```mist
+{
+    var x = new Box(10); // sc = 0
+
+    // sc is 0, drop it
+}
+```
+
+```mist
+var r; // sc = 0
+
+{
+    // sc of r = -1 (relative to current scope)
+
+    var x = new Box(10); // sc = 0
+
+    r = &x; // sc of x = -(sc of r) aka 1
+
+    // sc is 1, don't drop it, decrement by 1
+}
+
+// sc is 0, drop it
+```
+
+This system fixes what Rust couldn't, that is maintaining the same level of safety, without compromising performance and ergonomics, because it's still at the compiler level.
+
+What makes this better is that it can still live with Rust's lifetime model when needed.
+
+## More examples
+In rust this is a very limiting issue, but with SC, it goes how it's supposed to go
+```mist
+str* longest(str* x, str* y) {
+    if (x.len() > y.len()) return x;
+    else return y;
+}
+```
+
+Why? because both x and y are already a level higher.
+
+if x is an outer scope of y (generally means lives longer), y would actually push it's sc to live as long as x, a better example is this:
+```mist
+str* greet() {
+    return "hello, world!"; // Impossible in Rust
+}
+```
+
+By default, any refrence/allocation is a sc of 0, meaning it's going to last until the current scope ends, but it detected that we are returning it, therefore it increased the sc by 1.

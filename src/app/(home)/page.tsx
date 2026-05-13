@@ -21,7 +21,7 @@ export const mistShowcase = [
     greet("Developer");
 }
 
-public void greet(str* name) {
+pub void greet(str* name) {
   // Familiar pointer ergonomics with Rust safety
   String greeting = name.to_string();
   println!("Hello, {}!", greeting);
@@ -46,19 +46,19 @@ void process_data() {
     title: "Class and Type System",
     description:
       "Classes are syntactic sugar for Rust structs. Using 'extends' provides inheritance-style syntax over struct composition, compiling into the underlying Rust type system.",
-    code: `public struct PluginInfo {
-    public String name,
-    public String version,
+    code: `pub struct PluginInfo {
+    pub String name,
+    pub String version,
 }
   
-public class PluginRegistry<T> {
+pub class PluginRegistry<T> {
     T plugins;
 
-    public constructor(T plugins) {
+    pub constructor(T plugins) {
         self.plugins = plugins;
     }
 
-    public T plugins(self) {
+    pub T plugins(self) {
         return self.plugins;
     }
 }`,
@@ -68,10 +68,10 @@ public class PluginRegistry<T> {
     title: "Better Developer Experience",
     description:
       "While Rust can already be a great DX, Mist implements concepts that are proven to improve structure.",
-    code: `public class Logger {
+    code: `pub class Logger {
     String prefix;
 
-    public constructor(str* prefix) {
+    pub constructor(str* prefix) {
         self.prefix = prefix.to_string();
     }
 
