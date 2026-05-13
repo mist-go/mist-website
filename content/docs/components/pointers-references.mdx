@@ -23,9 +23,9 @@ void increment(i32 mut* value, i32* limit) {
 Lifetimes are attached directly to the type before the pointer symbol. This maintains a clean visual flow where the "type-contract" (identity, duration, and mutability) is read from left to right.
 
 ```mist
-public struct Inspector<'a> {
-    public str'a* target,
-    public u32'a mut* counter,
+pub struct Inspector<'a> {
+    pub str'a* target,
+    pub u32'a mut* counter,
 }
 ```
 

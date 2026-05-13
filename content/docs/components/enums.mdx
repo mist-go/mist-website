@@ -11,7 +11,7 @@ Enums in Mist serve as powerful algebraic data types (ADTs), maintaining the exa
 An enum can contain unit variants, tuple variants, or struct-like variants. Following Mist's core philosophy, struct-like variants place the type before the identifier.
 
 ```mist
-public enum TaskState {
+pub enum TaskState {
     Pending,
     InProgress,
     Completed,
@@ -41,7 +41,7 @@ enum Message {
 Just like structs and functions, enums declare generics and lifetimes in a unified block. This is particularly useful for defining custom Result or Option types that handle references.
 
 ```mist
-public enum Validation<'a, T> {
+pub enum Validation<'a, T> {
     Valid(T),
     Invalid {
         str'a* message,

@@ -25,7 +25,7 @@ void log_status(str* message) {
 Functions are private to their module by default. The `pub` modifier exports the function for cross-module access.
 
 ```mist
-public i32 get_version() {
+pub i32 get_version() {
     return 1;
 }
 ```
@@ -45,7 +45,7 @@ void update_score(i32 mut current_score, i32 bonus) {
 Mist integrates type abstraction and memory management into a single generic block. Lifetimes and type parameters share the `< >` bracket following the identifier.
 
 ```mist
-public str'a* choose_longer<'a, T: Display>(str'a* s1, str'a* s2, T meta) {
+pub str'a* choose_longer<'a, T: Display>(str'a* s1, str'a* s2, T meta) {
     println!("Metadata: {}", meta);
     return if (s1.len() > s2.len()) { s1 } else { s2 };
 }
@@ -57,7 +57,7 @@ Metadata is applied via the `#[attr]` syntax directly above the declaration for 
 
 ```mist
 #[inline]
-public bool is_active(u32 id) {
+pub bool is_active(u32 id) {
     return id > 0;
 }
 ```

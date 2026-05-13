@@ -11,10 +11,10 @@ Classes in Mist bridge the gap between Java's organizational structure and Rust'
 A class groups fields and methods together. Fields follow the `type name` convention, and methods define their logic directly within the class body.
 
 ```mist
-public class Logger {
+pub class Logger {
     String prefix;
 
-    public void info(self*, str* message) {
+    pub void info(self*, str* message) {
         self.log(LogLevel::Info, message);
     }
 
@@ -29,7 +29,7 @@ public class Logger {
 Unlike languages that use the class name for initialization, Mist uses the explicit `constructor` keyword. This makes the entry point of the class unmistakable.
 
 ```mist
-public constructor(str* prefix) {
+pub constructor(str* prefix) {
     self.prefix = prefix.to_string();
 }
 ```
@@ -39,7 +39,7 @@ public constructor(str* prefix) {
 Mist maintains Rust's explicit context handling. Any method that needs to access or modify class data must include `self*` (or `self mut*` for mutations) as its first parameter.
 
 ```mist
-public void warning(self*, str* message) {
+pub void warning(self*, str* message) {
     self.log(LogLevel::Warning, message);
 }
 ```

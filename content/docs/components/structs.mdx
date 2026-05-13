@@ -11,10 +11,10 @@ Structs in Mist follow the same structural logic as Rust, but apply the language
 A struct is defined by its name followed by a block of fields. Each field follows the Mist convention of placing the type before the identifier, separated by commas.
 
 ```mist
-public struct Task {
-    public String name,
-    public TaskState state,
-    public i32 executions,
+pub struct Task {
+    pub String name,
+    pub TaskState state,
+    pub i32 executions,
 }
 ```
 
@@ -23,8 +23,8 @@ public struct Task {
 Use the `pub` modifier to make the struct or its individual fields accessible from other modules.
 
 ```mist
-public struct NetworkNode {
-    public u32 id,
+pub struct NetworkNode {
+    pub u32 id,
     str* address,
 }
 ```
@@ -46,9 +46,9 @@ var task = Task {
 Generics and lifetimes are declared in angle brackets after the struct name. Lifetimes are associated with the reference/pointer type within the field declarations.
 
 ```mist
-public struct Buffer<'a, T> {
-    public T'a* data,
-    public usize len,
+pub struct Buffer<'a, T> {
+    pub T'a* data,
+    pub usize len,
 }
 ```
 
