@@ -53,5 +53,5 @@ public enum Validation<'a, T> {
 
 - **Consistent Member Declaration**: Struct-like variants maintain the `type name` order, ensuring that data modeling feels identical whether you are defining a top-level `struct` or an `enum` variant.
 - **Rust-Native ADTs**: Enums compile directly to Rust enums, allowing for exhaustive pattern matching and zero-cost abstraction.
-- **Shared Visibility**: The `public` modifier at the enum level exports all variants for use in other modules, matching Rust's visibility rules for enums.
+- **Shared Visibility**: The `pub` modifier at the enum level exports all variants for use in other modules, matching Rust's visibility rules for enums.
 - **Comma-Separated Members**: Fields within struct-like variants are separated by commas, mirroring the syntax used in standard Mist structs.

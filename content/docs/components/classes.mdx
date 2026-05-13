@@ -60,5 +60,5 @@ impl fmt::Display {
 
 - **Unified Scope**: Data, behavior, and trait logic live in one place, eliminating the friction of jumping between `struct` and `impl` blocks.
 - **Explicit Context**: The use of `self*` ensures that the relationship between a method and its instance is always transparent.
-- **Encapsulation**: Visibility modifiers (`public`) allow you to expose a clean API while keeping internal helper methods and state private to the class.
+- **Encapsulation**: Visibility modifiers (`pub`) allow you to expose a clean API while keeping internal helper methods and state private to the class.
 - **Zero-Cost Classes**: Under the hood, Mist desugars these into idiomatic Rust structs and implementation blocks, ensuring no runtime overhead compared to raw Rust.
