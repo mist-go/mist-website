@@ -17,7 +17,7 @@ The pattern is clear:
 
 ## New proposition (Scope Counting)
 I want to propose a new memory system (to my understanding), Scope Counting, which you have to see in action to understand it.
-```cpp
+```mist
 {
     var x = new Box(10); // sc = 0
 
@@ -25,7 +25,7 @@ I want to propose a new memory system (to my understanding), Scope Counting, whi
 }
 ```
 
-```cpp
+```mist
 var r; // sc = 0
 
 {
@@ -47,7 +47,7 @@ What makes this better is that it can still live with Rust's lifetime model when
 
 ## More examples
 In rust this is a very limiting issue, but with SC, it goes how it's supposed to go
-```cpp
+```mist
 str* longest(str* x, str* y) {
     if (x.len() > y.len()) return x;
     else return y;
@@ -57,7 +57,7 @@ str* longest(str* x, str* y) {
 Why? because both x and y are already a level higher.
 
 if x is an outer scope of y (generally means lives longer), y would actually push it's sc to live as long as x, a better example is this:
-```cpp
+```mist
 str* greet() {
     return "hello, world!"; // Impossible in Rust
 }
