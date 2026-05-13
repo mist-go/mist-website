@@ -10,7 +10,7 @@ Control flow in Mist provides a bridge between C-style procedural logic and Rust
 
 The `if` statement evaluates a boolean expression. It supports multiple `else if` branches and an optional `else` block.
 
-```cpp
+```mist
 if (score > 50) {
     println!("Pass");
 } else if (score == 50) {
@@ -24,7 +24,7 @@ if (score > 50) {
 
 The `match` statement provides exhaustive pattern matching. Currently, every match arm requires a block `{}` following the `=>` operator.
 
-```cpp
+```mist
 match (task_state) {
     TaskState::Pending => {
         println!("Queued");
@@ -46,7 +46,7 @@ Mist supports both functional iteration and traditional low-level loop control.
 
 For manual iteration control, Mist supports the standard three-part `for` loop: initialization, condition, and post-iteration statement.
 
-```cpp
+```mist
 for (var mut i = 0; i < 10; i = i + 1;) {
     println!("Index: {}", i);
 }
@@ -56,7 +56,7 @@ for (var mut i = 0; i < 10; i = i + 1;) {
 
 The `for-in` loop iterates over collections or iterators using Mist's pattern matching system.
 
-```cpp
+```mist
 for (var item in collection) {
     process(item);
 }
@@ -71,7 +71,7 @@ for ((i32 x, i32 y) in coordinates) {
 
 The `while` loop continues execution as long as the parenthesized expression evaluates to `true`.
 
-```cpp
+```mist
 while (active) {
     wait_for_event();
 }

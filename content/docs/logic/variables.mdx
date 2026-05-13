@@ -10,7 +10,7 @@ In Mist, variables follow the language-wide `type name` convention. For local sc
 
 Variables are declared using the `var` keyword for automatic type inference. Like Rust, variables are immutable by default.
 
-```java
+```mist
 var message = "Hello Mist"; // Inferred as str*
 var count = 42;             // Inferred as i32
 ```
@@ -19,7 +19,7 @@ var count = 42;             // Inferred as i32
 
 To allow a variable to be reassigned, use the `mut` modifier after the `var` keyword or the explicit type.
 
-```rust
+```mist
 var mut score = 0;
 score = 100;
 
@@ -31,7 +31,7 @@ price = 14.99;
 
 While `var` handles inference, you can explicitly define the type before the identifier. This is often used for clarity in complex logic or when the specific numeric width (e.g., `u8` vs `i32`) matters.
 
-```rust
+```mist
 u64 large_id = 1000234;
 bool is_active = true;
 ```
@@ -40,7 +40,7 @@ bool is_active = true;
 
 Because variable declarations are patterns, you can destructure tuples or structures directly. This keeps data extraction clean and avoids manual indexing.
 
-```rust
+```mist
 // Destructuring a tuple into local variables
 (i32, i32) (x, y) = get_coordinates();
 
@@ -52,7 +52,7 @@ Because variable declarations are patterns, you can destructure tuples or struct
 
 Constants are immutable values that are evaluated at compile time. They require an explicit type and follow the `const` keyword.
 
-```rust
+```mist
 const i32 MAX_RETRIES = 5;
 const str* VERSION = "1.0.4";
 ```

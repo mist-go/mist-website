@@ -10,7 +10,7 @@ Traits in Mist define a set of methods that a type must implement, facilitating 
 
 A trait definition lists method signatures that implementing types must satisfy. Like functions, these signatures place the return type before the method name.
 
-```rust
+```mist
 public trait Drawable {
     void draw(self*);
     str* metadata(self*);
@@ -20,7 +20,7 @@ public trait Drawable {
 
 To implement a trait for a specific type, use the `impl` keyword followed by the trait name and the target type. This block must contain all required methods defined in the trait.
 
-```rust
+```mist
 impl Drawable for Task {
     void draw(self*) {
         println!("Drawing task: {}", self.name);
@@ -35,7 +35,7 @@ impl Drawable for Task {
 
 Traits can provide default behavior for methods. Types implementing the trait can choose to override these defaults or use the provided implementation.
 
-```rust
+```mist
 public trait Identifiable {
     u32 get_id(self*);
 
@@ -48,7 +48,7 @@ public trait Identifiable {
 
 Traits can build upon other traits. If a trait requires another trait to be implemented first, use the colon `:` syntax.
 
-```rust
+```mist
 public trait Animated : Drawable {
     void animate(self*, f32 delta_time);
 }

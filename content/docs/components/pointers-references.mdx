@@ -10,7 +10,7 @@ Mist simplifies Rust’s reference system by using a pointer-style syntax. While
 
 References are defined by placing a `*` after the type. By default, pointers are immutable (shared). To allow modification of the underlying data, use the `mut*` modifier.
 
-```cpp
+```mist
 void increment(i32 mut* value, i32* limit) {
     if (value < limit) {
         value = value + 1;
@@ -22,7 +22,7 @@ void increment(i32 mut* value, i32* limit) {
 
 Lifetimes are attached directly to the type before the pointer symbol. This maintains a clean visual flow where the "type-contract" (identity, duration, and mutability) is read from left to right.
 
-```cpp
+```mist
 public struct Inspector<'a> {
     public str'a* target,
     public u32'a mut* counter,
