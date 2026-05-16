@@ -72,26 +72,29 @@ void main() {
 
 ### Build and Run
 
-To turn your Mist code into an executable, use the `build` command:
+To turn your Mist code into an executable, use the `run` command:
 
 ```bash title="Terminal"
-mist build
-```
-
-Once the build is successful, you can run your program using standard Cargo commands:
-
-```bash title="Terminal"
-cargo run
+mist run
 ```
 
 > **Pro Tip:** If you encounter any rust errors, head to the build directory and analyze the output, if you see anything unusual in the output, report the issue at https://github.com/mist-go/mist
+
+Or if you only want to transpile to rust
+
+```bash title="Terminal"
+mist transpile
+```
+
 
 ---
 
 ## Command Reference
 
-| Command        | Description                                                      |
-| -------------- | ---------------------------------------------------------------- |
-| `mist build`   | Compiles your `.mist` files into Rust code in the output folder. |
-| `mist version` | Displays the current version of the Mist compiler.               |
-| `mist help`    | Stuck? Use this to see all available commands and options.       |
+| Command          | Description                                     |
+| ---------------- | ----------------------------------------------- |
+| `mist run`       | Runs the project in the current directory       |
+| `mist build`     | builds the project in the current directory     |
+| `mist transpile` | transpiles the project in the current directory |
+| `mist version`   | prints the compiler version                     |
+| `mist help`      | prints this message                             |
