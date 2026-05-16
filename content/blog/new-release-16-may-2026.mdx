@@ -1,0 +1,31 @@
+---
+title: A new release of Mist in may 2026 (0.0.2-alpha0), what's new
+author: Klesti Selimaj
+date: 2026-05-16
+---
+
+Greetings, i've been pulled two all nighters in a row for this, i've added some essential features that will refine mist.
+
+## publicity
+Changed the keyword from `public` to `pub`
+Mist now supports many types of pub(s) like rust:
+- `pub`
+- `pub(crate)`
+- `pub(super)`
+- `pub(some::path)`
+
+And `use` and `mod` also have exporting:
+`pub use <tokio>;`
+`pub mod utils;`
+
+## Errors
+While the pest errors are unchanged, we now have unexpected statement errors which may seem unimpressive, except for the fact that i refactored 1000-2000 lines of code
+
+https://github.com/mist-go/mist/pull/29
+
+https://github.com/mist-go/mist/pull/28
+
+Both of these are improving the parser architecture in many ways, both for errors and extending the graph.
+
+## recovery
+Error recovery is one of the most important steps for extending Mist's toolchain, it allows LSPs to work, and multiple syntax errors to appear, this is half of what needed that many lines to work on.

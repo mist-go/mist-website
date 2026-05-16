@@ -30,6 +30,13 @@ pub i32 get_version() {
 }
 ```
 
+You can also point to a specific point (super or crate, or a custom path):
+```mist
+pub(crate) i32 get_version() {
+    return 1;
+}
+```
+
 ## Mutable Parameters
 
 Parameters follow Rust’s ownership rules but use Mist’s local variable syntax. Use `mut` to allow a function to modify its local binding of a value.
