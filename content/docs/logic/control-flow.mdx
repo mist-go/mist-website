@@ -32,6 +32,9 @@ match (task_state) {
     TaskState::Failed { reason, code } => {
         println!("Error {}: {}", code, reason);
     }
+    TaskState::NotResponding | TaskState::Progress => {
+        draw_loading();
+    }
     _ => {
         println!("Other state");
     }
