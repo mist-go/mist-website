@@ -14,7 +14,7 @@ export const mistShowcase = [
   {
     title: "Rust.. With ergonomics?",
     description:
-      "C/C++ style syntax for comfort. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
+      "C/C++/Java style syntax for comfort. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
     code: `void main() {
     println!("Hello, World!");
 
