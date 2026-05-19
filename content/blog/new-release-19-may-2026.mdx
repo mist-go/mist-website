@@ -1,0 +1,82 @@
+---
+title: A new release of Mist in may 2026 (0.0.3-alpha4), what's new
+author: Klesti Selimaj
+date: 2026-05-19
+---
+
+## Performance
+On my machines, the `mist-test` usually gets transpiled at ~13ms, which is good, but i'm unsatisfied, so i made it "transpile" at ~500µs, sometimes even 275µs, this of course is very dependent of the schedule and overhead.
+
+This was achieved by caching the file's timestamps, and this also saves the Rust compiler a lot of work since it has the same caching system.
+
+## Errors & Mapping
+You will notice that the output of the mist code contains something like this:
+```rust
+/* 9:5 */
+let args: Vec<String> = env::args().collect();
+/* 11:5 */
+if args.len() < 2
+{
+    /* 12:9 */
+    print_usage();
+    /* 13:9 */
+    process::exit(1);
+}
+```
+
+Those are mappings, the line of the rust file will translate to the line on the comment, example:
+```bash
+src/main.mist:12:9
+ Error: cannot find function `print_usage` in this scope
+        process::exit(1);
+```
+
+This is what the input is:
+```mist
+Vec<String> args = env::args().collect();
+
+if (args.len() < 2) {
+    print_usage();
+    process::exit(1);
+}
+```
+
+The error itself is taken via `--message-format=json` on `cargo` with the `cargo_metadata` crate.
+
+
+## Syntax changes
+
+### Match
+Match patterns now allow `|`:
+
+```mist
+match (args[1].as_str()) {
+    "run" | "build" | "check" | "r" | "b" | "c" => {
+        var (config, root) = transpiler::build();
+    }
+
+    _ => {}
+}
+```
+
+## Strings & Macros
+After using macros and strings, i noticed that there was bugs everywhere, i now ensure more stable macros, and strings now allow different escape sequences.
+
+
+## Variables and other statements
+Fixed variables declarations like 
+```mist
+Vec<String> args;
+```
+And also function calls:
+```mist
+my_func();
+```
+
+The reason why bugs occur with these statements is due to ambiguity, at first, they are right, for example:
+```mist
+// <type> <pattern>
+my_func (); // () used to be a pattern.
+```
+
+This fix is not perfect, you may encounter the same issues when passing arguments that are also within the pattern range (meaning not full expressions).
