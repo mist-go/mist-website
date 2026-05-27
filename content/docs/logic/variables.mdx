@@ -11,8 +11,8 @@ In Mist, variables follow the language-wide `type name` convention. For local sc
 Variables are declared using the `var` keyword for automatic type inference. Like Rust, variables are immutable by default.
 
 ```mist
-var message = "Hello Mist"; // Inferred as str*
-var count = 42;             // Inferred as i32
+var message = "Hello Mist";
+var count = 42;
 ```
 
 ## Mutability
@@ -29,28 +29,28 @@ price = 14.99;
 
 ## Explicit Typing
 
-While `var` handles inference, you can explicitly define the type before the identifier. This is often used for clarity in complex logic or when the specific numeric width (e.g., `u8` vs `i32`) matters.
-
 ```mist
 u64 large_id = 1000234;
 bool is_active = true;
 ```
 
-## Pattern Destructuring
-
-Because variable declarations are patterns, you can destructure tuples or structures directly. This keeps data extraction clean and avoids manual indexing.
+## Arrays
 
 ```mist
-// Destructuring a tuple into local variables
-(i32, i32) (x, y) = get_coordinates();
+var list = [1, 2, 3];       // Standard init
+var zeros = [0; 10];         // Repeat notation: ten zeroes
+```
 
-// Using 'var' within a pattern for inference
+## Pattern Destructuring
+
+```mist
+(i32, i32) (x, y) = get_coordinates();
 (String, i32) (name, age) = get_user_info();
 ```
 
 ## Constants
 
-Constants are immutable values that are evaluated at compile time. They require an explicit type and follow the `const` keyword.
+Constants are immutable values evaluated at compile time with an explicit type.
 
 ```mist
 const i32 MAX_RETRIES = 5;
@@ -59,7 +59,7 @@ const str* VERSION = "1.0.4";
 
 ## Key Characteristics
 
-- **Predictable Order**: Whether using `var` or an explicit type, the name of the variable always follows the "source" of its data.
-- **Safety First**: Immutability by default prevents accidental state changes, mapping directly to Rust's memory safety model.
-- **Zero-Cost Inference**: Type inference is handled entirely at compile time, ensuring there is no runtime performance penalty.
-- **Shadowing**: Mist supports variable shadowing, allowing you to reuse variable names within the same scope to transform data without changing mutability.
+- **Predictable Order**: Whether using `var` or an explicit type, the name always follows the "source" of its data.
+- **Safety First**: Immutability by default prevents accidental state changes.
+- **Zero-Cost Inference**: Type inference is handled entirely at compile time.
+- **Shadowing**: Mist supports variable shadowing within the same scope.

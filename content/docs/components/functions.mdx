@@ -4,7 +4,7 @@ description: Defining execution blocks with C-style ergonomics and Rust-powered 
 icon: SquareFunction
 ---
 
-Functions are the primary unit of execution in Mist. They prioritize a traditional declaration order, placing the return type before the identifier to ensure signatures remain easy to scan in complex systems.
+Functions are the primary unit of execution in Mist. They prioritize a traditional declaration order, placing the return type before the identifier.
 
 ## Basic Syntax
 
@@ -28,18 +28,15 @@ Functions are private to their module by default. The `pub` modifier exports the
 pub i32 get_version() {
     return 1;
 }
-```
 
-You can also point to a specific point (super or crate, or a custom path):
-```mist
-pub(crate) i32 get_version() {
-    return 1;
+pub(crate) i32 internal_use() {
+    return 0;
 }
 ```
 
 ## Mutable Parameters
 
-Parameters follow Rust’s ownership rules but use Mist’s local variable syntax. Use `mut` to allow a function to modify its local binding of a value.
+Use `mut` to allow a function to modify its local binding of a value.
 
 ```mist
 void update_score(i32 mut current_score, i32 bonus) {
@@ -58,9 +55,23 @@ pub str'a* choose_longer<'a, T: Display>(str'a* s1, str'a* s2, T meta) {
 }
 ```
 
+## Closures
+
+Closures are anonymous functions that can capture their environment. The return type before the pipe is optional — when omitted, the closure body uses curly braces:
+
+```mist
+var add = |i32 a, i32 b| { a + b };
+
+// With explicit return type
+Option<i32> |var v| { Some(v) }
+
+// Without return type
+var greet = |str* name| { println!("Hello {}", name) };
+```
+
 ## Attributes & Metadata
 
-Metadata is applied via the `#[attr]` syntax directly above the declaration for compiler hints or testing.
+Metadata is applied via the `#[attr]` syntax directly above the declaration.
 
 ```mist
 #[inline]
@@ -71,6 +82,7 @@ pub bool is_active(u32 id) {
 
 ## Key Characteristics
 
-* **Scannable Signatures:** Placing return types first allows for rapid identification of a function's output.
-* **Unified Abstraction:** Lifetimes and type constraints are declared in one location, reducing signature noise.
-* **Zero-Cost Mapping:** Every function maps directly to a Rust `fn`, maintaining performance and ecosystem compatibility.
+- **Scannable Signatures**: Return types first for rapid identification of a function's output.
+- **Unified Abstraction**: Lifetimes and type constraints are declared in one location.
+- **Closure Support**: Anonymous functions with optional return type annotations.
+- **Zero-Cost Mapping**: Every function maps directly to a Rust `fn`.
