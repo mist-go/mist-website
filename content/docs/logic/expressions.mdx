@@ -4,80 +4,123 @@ description: The building blocks of logic, from literals to complex postfix chai
 icon: Binary
 ---
 
-Expressions in Mist are the fundamental units that evaluate to a value. The syntax follows a clean **prefix → primary → postfix** chain, providing a predictable structure that maps closely to Rust's mental model.
+Expressions in Mist are the fundamental units that evaluate to a value. The syntax follows a clean **prefix -> primary -> postfix** chain, providing a predictable structure that maps closely to Rust's mental model.
 
 ## Primary Expressions
 
 Primary expressions are the starting point of any logic chain. These include literal values, paths to static members, or grouped expressions in tuples.
 
 ```mist
-// Literals and paths
 var x = 42;
 var y = Math::PI;
-
-// Tuples
 var coordinates = (10, 20, 30);
-
 ```
 
 ## Postfix Operations
 
-Postfix expressions allow you to build on a primary value. This includes calling functions, accessing fields, indexing arrays, or initializing structs.
+Postfix expressions allow you to build on a primary value with field access, calls, indexing, type casting, error propagation, and mutation operators.
 
 ```mist
-// Field access and method/function calls
 var len = list.length();
 
-// Struct initialization
 var task = Task {
     name: "Drafting",
     priority: 1,
 };
 
-// Indexing and Macro calls
 var first = items[0];
-println!("Value: {}", first); // Macro call via '!'
+println!("Value: {}", first);
+```
 
+### Increment & Decrement
+
+```mist
+var mut i = 0;
+i++;
+i--;
+```
+
+### Compound Assignments
+
+```mist
+i += 10;
+i -= 5;
+i *= 2;
+i /= 3;
+value &= mask;
+flags |= 0x01;
+```
+
+### Type Casting
+
+Use `as` to convert between compatible types:
+
+```mist
+var x = 42;
+var y = x as f64;
+```
+
+### Try Operator
+
+Propagate errors with the `?` postfix operator:
+
+```mist
+var content = fs::read_to_string(path)?;
+```
+
+### Range Operators
+
+```mist
+0..10        // exclusive range (0 to 9)
+0..=10       // inclusive range (0 to 10)
+```
+
+### Arrays
+
+Arrays are initialized with brackets, with an optional repeat notation:
+
+```mist
+var arr = [1, 2, 3];
+var zeros = [0; 10];        // ten zeroes
 ```
 
 ## Prefix Operations
 
-Prefixes modify the primary expression that follows them. Mist uses these for logical negation, dereferencing, and creating references.
+Prefixes modify the primary expression that follows them.
 
 ```mist
 var mut value = 10;
 
-var ref = &value;         // Reference
-var mref = &mut value;    // Mutable reference
-var val = *ref;           // Dereference
-var is_false = !true;     // Logical NOT
-
+var ref = &value;
+var mref = &mut value;
+var val = *ref;
+var is_false = !true;
+var neg = -42;
 ```
 
 ## Binary Operations
-
-Binary operations are applied as postfixes to an expression, following a `bin_op ~ expr` pattern. This supports all standard arithmetic, comparison, and logical operators.
 
 ```mist
 var sum = 10 + 20;
 var is_equal = (x == y);
 var complex = (a + b) * (c / d);
-
 ```
 
 ## Operator Table
 
-Mist supports the following binary operators for comparisons and arithmetic:
-
-| Category       | Operators                        |
-| -------------- | -------------------------------- |
-| **Arithmetic** | `+`, `-`, `*`, `/`, `%`          |
-| **Comparison** | `==`, `!=`, `<`, `>`, `<=`, `>=` |
-| **Logical**    | `&&`, `\|\|`                     |
+| Category       | Operators                                                        |
+| -------------- | ---------------------------------------------------------------- |
+| **Arithmetic** | `+`, `-`, `*`, `/`, `%`                                          |
+| **Comparison** | `==`, `!=`, `<`, `>`, `<=`, `>=`                                  |
+| **Logical**    | `&&`, `||`                                                        |
+| **Bitwise**    | `<<`, `>>`, `&`, `\|`, `^`                                        |
+| **Range**      | `..`, `..=`                                                       |
+| **Assign**     | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `\|=`, `^=`, `<<=`, `>>=` |
 
 ## Key Characteristics
 
-- **Predictable Chaining**: The `prefix* ~ primary ~ postfix*` grammar ensures that complex expressions are parsed consistently, whether you are dereferencing a function call or indexing a struct field.
-- **Rust-Style References**: While the pointer syntax `type*` is used in declarations, expressions use `&` and `&mut` to create references, maintaining compatibility with Rust's borrow checker.
-- **Macro Integration**: Macros are treated as a postfix operation (`!`), allowing them to be called on identifiers just like standard functions.
-- **Unified Tuples**: Tuples are primary expressions, allowing them to be passed, returned, or destructured seamlessly within the expression tree.
+- **Predictable Chaining**: The `prefix* ~ primary ~ postfix*` grammar ensures complex expressions are parsed consistently.
+- **Rust-Style References**: Expressions use `&` and `&mut` to create references, maintaining borrow checker compatibility.
+- **Macro Integration**: Macros use `!` as a postfix operation.
+- **Type Casting**: `as Type` provides explicit type conversion at the expression level.
+- **Error Propagation**: The `?` operator enables early returns for `Result`/`Option` types.

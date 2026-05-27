@@ -12,6 +12,7 @@
         "components/classes",
         "components/traits",
         "components/pointers-references",
+        "components/modules-imports",
 
         "---[ArrowDownUp]Logic---",
         "logic/variables",

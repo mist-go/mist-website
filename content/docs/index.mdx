@@ -11,7 +11,7 @@ Mist is currently distributed as a Cargo crate. To get started, you'll need to h
 Run the following command to install the Mist compiler:
 
 ```bash title="Terminal"
-cargo install mist-lang@0.0.3-alpha4
+cargo install mist-lang@0.0.5-alpha0
 ```
 
 Once the installation finishes, verify it by checking the version:
@@ -24,20 +24,19 @@ mist version
 
 ## 2. Setting Up Your Project
 
-Mist works alongside Cargo to handle the heavy lifting. Follow these steps to prepare your environment for your first "Hello World" program.
-
-### Initialize a New Project
-
-If you haven't already, create a new Cargo project and navigate into the directory:
+Mist works alongside Cargo to handle the heavy lifting. Use `init` to scaffold a new project:
 
 ```bash title="Terminal"
 cargo new my-mist-app
 cd my-mist-app
+mist init
 ```
 
-### Configure Mist
+This creates a `src/main.mist` and wires up the output directory (`.mist/src/`) in your `Cargo.toml`.
 
-Create a `mist.json` file in your root directory. This tells the compiler where to look for your source code and where to place the generated Rust files.
+### Manual Setup
+
+If you prefer to configure things yourself, create a `mist.json` file:
 
 ```json title="mist.json"
 {
@@ -46,36 +45,13 @@ Create a `mist.json` file in your root directory. This tells the compiler where 
 }
 ```
 
-### Link Cargo to Mist
-
-Since Mist compiles down to Rust, you need to point Cargo to the generated output. Update your `Cargo.toml` to include the following:
-
-```toml title="Cargo.toml"
-[[bin]]
-name = "my-mist-app"
-path = "build/main.rs"
-```
-
-You can also add `/build` to your `.gitignore`.
-
-> **Pro Tip:** create a `src/_header.rs` file with only main declared, and add this to your `Cargo.toml` (without replacing the current `[[bin]]`):
-> ```toml title="Cargo.toml"
-> # add this in [package]
-> default-run="my-mist-app-header"
->
-> # Do not replace the current [[bin]]
-> [[bin]]
-> name = "my-mist-app-header"
-> path = "src/_header.rs"
->```
->
-> And add all of the `mod`(s) from `src/main.rs`, as well as a empty `main` function, this will allow `.rs` files to be used with IDE support.
+Source files go in `src/` and the transpiled output goes to `.mist/src/`. Non-Mist files in `src/` (e.g. Rust sidecar files) are copied through as-is.
 
 ---
 
 ## 3. Your First Program
 
-Now for the fun part! Create a new file at `src/main.mist` and add the following code:
+Create a new file at `src/main.mist` and add the following code:
 
 ```mist title="src/main.mist"
 void main() {
@@ -85,28 +61,23 @@ void main() {
 
 ### Build and Run
 
-To turn your Mist code into an executable, use the `run` command:
-
 ```bash title="Terminal"
-mist run
+mist run          # or the short alias: mist r
+mist build        # or: mist b
+mist check        # or: mist c
+mist transpile    # or: mist t
 ```
-
-Or if you only want to transpile to rust (this will not give any semantic errors, only syntax errors).
-
-```bash title="Terminal"
-mist transpile
-```
-
 
 ---
 
 ## Command Reference
 
-| Command          | Description                                     |
-| ---------------- | ----------------------------------------------- |
-| `mist run`       | Runs the project in the current directory       |
-| `mist build`     | builds the project in the current directory     |
-| `mist transpile` | transpiles the project in the current directory |
-| `mist check`     | checks the project in the current directory     |
-| `mist version`   | prints the compiler version                     |
-| `mist help`      | prints this message                             |
+| Command              | Alias | Description                                     |
+| -------------------- | ----- | ----------------------------------------------- |
+| `mist init`          |       | Initializes a new Mist project                  |
+| `mist run`           | `r`   | Runs the project in the current directory       |
+| `mist build`         | `b`   | Builds the project in the current directory     |
+| `mist transpile`     | `t`   | Transpiles the project in the current directory |
+| `mist check`         | `c`   | Checks the project in the current directory     |
+| `mist version`       | `-v`  | Prints the compiler version                     |
+| `mist help`          | `-h`  | Prints this message                             |
