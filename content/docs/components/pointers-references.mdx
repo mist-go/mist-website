@@ -40,6 +40,17 @@ pub struct Inspector<'a> {
 }
 ```
 
+## Allocations
+In classes, it's very important to initialize heap allocated fields in `constructor` using `path -> expr`, here is the most common example:
+```mist
+pub class Dog : Animal {
+    constructor() {
+        super -> Super::new();
+    }
+}
+```
+This outputs `std::ptr::write` which is a force write to memory without dropping what "exists", and it's commonly used in uninitialized memory, such as uninitialized dynamic fields.
+
 ## Key Characteristics
 
 - **Prefix Pointer Syntax**: `*Type` for shared references, `*mut Type` for mutable references.

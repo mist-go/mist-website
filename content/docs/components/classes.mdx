@@ -111,6 +111,20 @@ pub class Container<T> {
 }
 ```
 
+## Allocations
+In classes, it's very important to initialize heap allocated fields in `constructor` using `path -> expr`, here is the most common example:
+```mist
+pub class Dog : Animal {
+    pub heap_alloc Box<i32>;
+
+    constructor() {
+        super -> Super::new();
+        self.heap_alloc -> Box::new(69);
+    }
+}
+```
+This outputs `std::ptr::write` which is a force write to memory without dropping what "exists", and it's commonly used in uninitialized memory, such as uninitialized dynamic fields.
+
 ## Key Characteristics
 
 - **Unified Scope**: Data and behavior live in one class block.
