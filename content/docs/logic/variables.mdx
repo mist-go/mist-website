@@ -4,62 +4,55 @@ description: Local state management with type inference and explicit mutability.
 icon: Variable
 ---
 
-In Mist, variables follow the language-wide `type name` convention. For local scope, the `var` keyword provides type inference, while explicit types can be used for clarity or strictness.
+Variables in Mist are declared with the `let` keyword. Like Rust, variables are immutable by default, and types are written after the name for scannability.
 
 ## Basic Declaration
 
-Variables are declared using the `var` keyword for automatic type inference. Like Rust, variables are immutable by default.
+Variables use `let` for automatic type inference. The type annotation is optional — when omitted, the compiler infers the type from the value.
 
 ```mist
-var message = "Hello Mist";
-var count = 42;
+let x = 42;
+let greeting = "Hello Mist";
 ```
 
 ## Mutability
 
-To allow a variable to be reassigned, use the `mut` modifier after the `var` keyword or the explicit type.
+To allow a variable to be reassigned, use `let mut`:
 
 ```mist
-var mut score = 0;
+let mut score = 0;
 score = 100;
-
-f32 mut price = 19.99;
-price = 14.99;
 ```
 
 ## Explicit Typing
 
+Type annotations are placed after the name:
+
 ```mist
-u64 large_id = 1000234;
-bool is_active = true;
+let id u64 = 1000234;
+let is_active bool = true;
+let name *str = "mist";
 ```
 
 ## Arrays
 
 ```mist
-var list = [1, 2, 3];       // Standard init
-var zeros = [0; 10];         // Repeat notation: ten zeroes
+let list = [1, 2, 3];       // Standard init
+let zeros = [0; 10];         // Repeat notation: ten zeroes
 ```
 
 ## Pattern Destructuring
 
-```mist
-(i32, i32) (x, y) = get_coordinates();
-(String, i32) (name, age) = get_user_info();
-```
-
-## Constants
-
-Constants are immutable values evaluated at compile time with an explicit type.
+Tuples are destructured using square brackets:
 
 ```mist
-const i32 MAX_RETRIES = 5;
-const str* VERSION = "1.0.4";
+let [a, b] = (10, "hello");
+let [a, [b, c]] = (1, (2, 3));
 ```
 
 ## Key Characteristics
 
-- **Predictable Order**: Whether using `var` or an explicit type, the name always follows the "source" of its data.
+- **Predictable Order**: The `let` keyword signals a binding, followed by the name, optional type, and optional value.
 - **Safety First**: Immutability by default prevents accidental state changes.
 - **Zero-Cost Inference**: Type inference is handled entirely at compile time.
 - **Shadowing**: Mist supports variable shadowing within the same scope.

@@ -4,19 +4,19 @@ description: Defining execution blocks with C-style ergonomics and Rust-powered 
 icon: SquareFunction
 ---
 
-Functions are the primary unit of execution in Mist. They prioritize a traditional declaration order, placing the return type before the identifier.
+Functions are the primary unit of execution in Mist, declared with the `fn` keyword. Parameters follow the `name Type` convention and the return type is placed after the parameter list.
 
 ## Basic Syntax
 
-A standard function requires a return type, a name, and a body. Use the `void` keyword for functions that do not return a value.
+A standard function begins with `fn`, followed by its name, parameters, and an optional return type. The last expression in a block is implicitly returned.
 
 ```mist
-i32 add(i32 a, i32 b) {
-    return a + b;
+fn add(a i32, b i32) i32 {
+    a + b
 }
 
-void log_status(str* message) {
-    println!("{}", message);
+fn greet() {
+    println!("Hello!");
 }
 ```
 
@@ -25,48 +25,48 @@ void log_status(str* message) {
 Functions are private to their module by default. The `pub` modifier exports the function for cross-module access.
 
 ```mist
-pub i32 get_version() {
-    return 1;
+pub fn get_version() i32 {
+    1
 }
 
-pub(crate) i32 internal_use() {
-    return 0;
+pub(crate) fn internal_use() i32 {
+    0
 }
 ```
 
 ## Mutable Parameters
 
-Use `mut` to allow a function to modify its local binding of a value.
+Use `mut` on a parameter to allow reassignment within the function body.
 
 ```mist
-void update_score(i32 mut current_score, i32 bonus) {
+fn update_score(mut current_score i32, bonus i32) i32 {
     current_score = current_score + bonus;
+    current_score
 }
 ```
 
 ## Generics & Lifetimes
 
-Mist integrates type abstraction and memory management into a single generic block. Lifetimes and type parameters share the `< >` bracket following the identifier.
+Generics and lifetimes are declared in angle brackets after the function name. Lifetimes are placed before the `*` in reference types.
 
 ```mist
-pub str'a* choose_longer<'a, T: Display>(str'a* s1, str'a* s2, T meta) {
-    println!("Metadata: {}", meta);
-    return if (s1.len() > s2.len()) { s1 } else { s2 };
+fn choose_longer<'a>(s1 *'a str, s2 *'a str) *'a str {
+    if (s1.len() > s2.len()) { s1 } else { s2 }
 }
 ```
 
 ## Closures
 
-Closures are anonymous functions that can capture their environment. The return type before the pipe is optional — when omitted, the closure body uses curly braces:
+Closures are anonymous functions defined with the `fn` keyword followed by parameters, an optional return type, and a body or expression.
 
 ```mist
-var add = |i32 a, i32 b| { a + b };
+let add = fn(a, b) -> a + b;
+add(2, 3);
 
-// With explicit return type
-Option<i32> |var v| { Some(v) }
-
-// Without return type
-var greet = |str* name| { println!("Hello {}", name) };
+// With a block body
+let greet = fn(name *str) {
+    println!("Hello {}", name);
+};
 ```
 
 ## Attributes & Metadata
@@ -75,14 +75,15 @@ Metadata is applied via the `#[attr]` syntax directly above the declaration.
 
 ```mist
 #[inline]
-pub bool is_active(u32 id) {
-    return id > 0;
+pub fn is_active(id u32) bool {
+    id > 0
 }
 ```
 
 ## Key Characteristics
 
-- **Scannable Signatures**: Return types first for rapid identification of a function's output.
+- **`fn` Keyword**: Every function starts with `fn`, making declarations instantly recognizable.
+- **Implicit Returns**: The final expression in a block is automatically returned.
 - **Unified Abstraction**: Lifetimes and type constraints are declared in one location.
 - **Closure Support**: Anonymous functions with optional return type annotations.
 - **Zero-Cost Mapping**: Every function maps directly to a Rust `fn`.

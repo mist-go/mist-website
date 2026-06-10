@@ -4,7 +4,7 @@ description: Organizing code across files with module declarations and path-base
 icon: FolderTree
 ---
 
-Mist organizes code through a file-system based module system with explicit path imports, similar to Rust but with a cleaner import syntax.
+Mist organizes code through a file-system based module system with explicit path imports.
 
 ## The Module System
 
@@ -12,7 +12,7 @@ Each `.mist` file in `src/` corresponds to a module. The module tree mirrors the
 
 ### File-Based Modules
 
-The file `src/main.mist` is the crate root. Other files are discovered through `mod` declarations or by name — no explicit declaration is needed when a file exists at a matching path.
+The file `src/main.mist` is the crate root. Other files are discovered through `mod` declarations or by name.
 
 ### Declaring Submodules
 
@@ -24,16 +24,16 @@ mod database;
 
 ## Imports
 
-Use the `use` keyword with angle brackets to bring items from other modules or external crates into scope.
+Use the `use` keyword with a path to bring items from other modules or external crates into scope.
 
 ```mist
-use <std::fs>;
-use <std::process>;
-use <std::path::Path>;
-use <std::collections::HashMap>;
+use std::fs;
+use std::process;
+use std::path::Path;
+use std::collections::HashMap;
 
 // Import specific items
-use <my_module::Helper>;
+use my_module::Helper;
 ```
 
 ### Visibility
@@ -41,7 +41,7 @@ use <my_module::Helper>;
 Items can be re-exported with a visibility modifier on the import:
 
 ```mist
-pub use <internal::format>;
+pub use internal::format;
 ```
 
 ## Sidefiles

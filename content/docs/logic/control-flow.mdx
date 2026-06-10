@@ -4,11 +4,11 @@ description: Directing execution with expression-based logic, pattern matching, 
 icon: Split
 ---
 
-Control flow in Mist provides a bridge between C-style procedural logic and Rust's expression-oriented design. Blocks, if statements, while/for/loop loops, and match expressions all support statement bodies — meaning braces can be omitted for single-statement branches.
+Control flow in Mist provides a bridge between C-style procedural logic and Rust's expression-oriented design. Blocks, if statements, while/for/loop loops, and match expressions all support statement bodies.
 
 ## Conditionals
 
-The `if` statement evaluates a boolean expression. Single-statement bodies don't need braces:
+The `if` statement evaluates a boolean expression:
 
 ```mist
 if (score > 50) {
@@ -22,8 +22,8 @@ if (score > 50) {
 // Single-statement body (no braces needed)
 if (is_active) println!("Running");
 
-// Expression body (soft return)
-var result = if (valid) "ok" else "err";
+// Expression body (implicit return)
+let result = if (valid) { "ok" } else { "err" };
 ```
 
 ## Match
@@ -32,18 +32,28 @@ The `match` statement provides exhaustive pattern matching with support for mult
 
 ```mist
 match (task_state) {
-    TaskState::Pending => {
-        println!("Queued");
-    }
+    TaskState::Pending => { println!("Queued"); }
     TaskState::Failed { reason, code } => {
         println!("Error {}: {}", code, reason);
     }
     TaskState::NotResponding | TaskState::Progress => {
         draw_loading();
     }
-    _ => {
-        println!("Other state");
-    }
+    _ => { println!("Other state"); }
+}
+```
+
+Patterns support destructuring, or-patterns, and wildcards:
+
+```mist
+let x = 2;
+let result;
+
+match (x) {
+    1 => { result = 10; }
+    2 => { result = 20; }
+    3 => { result = 30; }
+    _ => panic!();
 }
 ```
 
@@ -60,35 +70,31 @@ loop {
 }
 ```
 
-### C-Style For Loop
-
-```mist
-for (var mut i = 0; i < 10; i++;)
-    println!("Index: {}", i);
-```
-
 ### For-In Loop
 
+For loops iterate over an expression using the `pattern : expr` syntax:
+
 ```mist
-for (var item in collection)
-    process(item);
+for (i : 0..4) {
+    sum += i;
+}
 
-for ((i32 x, i32 y) in coordinates)
-    draw_point(x, y);
-
-// Range iteration
-for (var i in 0..10)
-    println!("{}", i);
+// With pattern destructuring
+for ([k, _] : pairs) {
+    keys += k;
+}
 ```
 
 ### While Loop
 
 ```mist
+while (count < 5) {
+    count++;
+}
+
 while (active) {
     wait_for_event();
 }
-
-while (count > 0) process(count--);
 ```
 
 ## Jump Statements
@@ -100,6 +106,6 @@ while (count > 0) process(count--);
 ## Key Characteristics
 
 - **Statement Bodies**: If, while, for, and loop branches can omit braces for single statements or expressions.
-- **Soft Returns**: Expression bodies (without `;`) implicitly return their value.
+- **Implicit Returns**: Expression bodies (without `;`) implicitly return their value.
 - **Pattern Integration**: Loops and match arms utilize Mist's pattern system for data destructuring.
 - **Multiple Patterns**: Match arms support `|` for matching multiple patterns.

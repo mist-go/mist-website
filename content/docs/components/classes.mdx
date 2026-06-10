@@ -4,21 +4,21 @@ description: Unified data and behavior with Java-style organization and Rust-pow
 icon: Shapes
 ---
 
-Classes in Mist bridge the gap between Java's organizational structure and Rust's performance. They allow you to define data fields, constructors, instance methods, and trait implementations within a single, cohesive block.
+Classes in Mist bridge the gap between Java's organizational structure and Rust's performance. They group fields, constructors, and methods within a single cohesive block, using `fn` for methods and `*self` for the instance parameter.
 
 ## Basic Syntax
 
-A class groups fields and methods together. Fields follow the `type name` convention, and methods define their logic directly within the class body.
+A class groups fields and methods together. Fields use semicolons and the `name Type` convention. Methods use `fn` and take `*self` as the first parameter for shared access.
 
 ```mist
 pub class Logger {
-    String prefix;
+    prefix String;
 
-    pub void info(self*, str* message) {
+    pub fn info(*self, message *str) {
         self.log(LogLevel::Info, message);
     }
 
-    void log(self*, LogLevel level, str* message) {
+    fn log(*self, level LogLevel, message *str) {
         println!("{level} {} {}", self.prefix, message);
     }
 }
@@ -26,39 +26,87 @@ pub class Logger {
 
 ## The Constructor
 
-Unlike languages that use the class name for initialization, Mist uses the explicit `constructor` keyword. This makes the entry point of the class unmistakable.
+Mist uses the explicit `constructor` keyword for initialization:
 
 ```mist
-pub constructor(str* prefix) {
-    self.prefix = prefix.to_string();
+pub constructor() {
+    self.prefix = "default".to_string();
 }
 ```
 
-## Instance Methods & `self`
-
-Mist maintains Rust's explicit context handling. Any method that needs to access or modify class data must include `self*` (or `self mut*` for mutations) as its first parameter.
+Constructors can take parameters:
 
 ```mist
-pub void warning(self*, str* message) {
+pub constructor(prefix String) {
+    self.prefix = prefix;
+}
+```
+
+## Instance Methods & `*self`
+
+Methods use `*self` (shared reference) or `*mut self` (mutable reference) as the first parameter. The return type is placed after the parameter list.
+
+```mist
+pub fn warning(*self, message *str) {
     self.log(LogLevel::Warning, message);
 }
+
+pub fn reset(*mut self) {
+    self.prefix = String::new();
+}
 ```
 
-## Trait Implementations
+## Inheritance
 
-One of Mist's most powerful features is the ability to nest trait implementations directly within the class block. This keeps the logic for how a type behaves (e.g., how it is displayed) physically coupled with the type definition.
+Classes support single inheritance with the `:` syntax. Use `super -> Super::new()` in the constructor to call the parent constructor. Override methods with `override` or `override(Parent)`.
 
 ```mist
-impl fmt::Display {
-    std::fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
-        return write!(f, "logger ({})", self.prefix);
+pub class Animal {
+    pub name String;
+
+    constructor() {
+        self.name = "Rex".to_string();
+    }
+
+    pub fn speak(*self) {
+        println!("Unknown");
+    }
+}
+
+pub class Dog : Animal {
+    constructor() {
+        super -> Super::new();
+    }
+
+    pub override fn speak(*self) {
+        println!("Woof!");
+    }
+}
+```
+
+## Generics
+
+Classes support generic type parameters:
+
+```mist
+pub class Container<T> {
+    pub value T;
+
+    constructor(val T) {
+        self.value = val;
+    }
+
+    pub fn get(*self) *T {
+        &self.value
     }
 }
 ```
 
 ## Key Characteristics
 
-- **Unified Scope**: Data, behavior, and trait logic live in one place, eliminating the friction of jumping between `struct` and `impl` blocks.
-- **Explicit Context**: The use of `self*` ensures that the relationship between a method and its instance is always transparent.
-- **Encapsulation**: Visibility modifiers (`pub`) allow you to expose a clean API while keeping internal helper methods and state private to the class.
-- **Zero-Cost Classes**: Under the hood, Mist desugars these into idiomatic Rust structs and implementation blocks, ensuring no runtime overhead compared to raw Rust.
+- **Unified Scope**: Data and behavior live in one class block.
+- **`fn` Methods**: Methods use the `fn` keyword, consistent with free functions.
+- **`*self` Parameter**: The self reference is explicit and uses prefix `*` syntax.
+- **Inheritance**: Single inheritance with `override` for polymorphic dispatch.
+- **Encapsulation**: Visibility modifiers (`pub`) control API exposure.
+- **Zero-Cost Classes**: Under the hood, Mist desugars these into idiomatic Rust structs and implementation blocks.

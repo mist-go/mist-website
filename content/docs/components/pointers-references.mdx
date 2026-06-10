@@ -1,37 +1,49 @@
 ---
 title: Pointers & References
-description: Explicit memory access with C-style ergonomics and Rust-native safety.
+description: Explicit memory access with prefix pointer syntax and Rust-native safety.
 icon: MousePointer2
 ---
 
-Mist simplifies Rust’s reference system by using a pointer-style syntax. While the symbols look like C-style pointers, they adhere strictly to Rust’s ownership and borrowing rules.
+Mist uses a prefix `*` syntax for reference types. While the symbols look like C-style pointers, they adhere strictly to Rust's ownership and borrowing rules.
 
 ## Basic Syntax
 
-References are defined by placing a `*` after the type. By default, pointers are immutable (shared). To allow modification of the underlying data, use the `mut*` modifier.
+Reference types are written with `*` before the type. Use `*mut` for mutable references. The `&` and `&mut` operators create references from values.
 
 ```mist
-void increment(i32 mut* value, i32* limit) {
-    if (value < limit) {
-        value = value + 1;
+let x i32 = 42;
+let r *i32 = &x;
+
+let mut y = 42;
+let r *mut i32 = &mut y;
+*r = 100;
+```
+
+In function parameters:
+
+```mist
+fn increment(value *mut i32, limit *i32) {
+    if (*value < *limit) {
+        *value = *value + 1;
     }
 }
 ```
 
 ## Lifetimes
 
-Lifetimes are attached directly to the type before the pointer symbol. This maintains a clean visual flow where the "type-contract" (identity, duration, and mutability) is read from left to right.
+Lifetimes are placed between `*` and the type, reading as "pointer with lifetime to type":
 
 ```mist
 pub struct Inspector<'a> {
-    pub str'a* target,
-    pub u32'a mut* counter,
+    pub target *'a str,
+    pub counter *'a mut u32,
 }
 ```
 
 ## Key Characteristics
 
-- **Explicit Intent:** The `mut*` syntax clearly distinguishes between a reference that can read and one that can write, mapping 1:1 to Rust's `&` and `&mut`.
-- **Visual Consistency:** Lifetimes (`'a`) and mutability modifiers are integrated into the type declaration, keeping function signatures and struct fields compact.
-- **Safety Guaranteed:** Despite the "pointer" appearance, the Mist compiler enforces Rust’s borrow checker. You cannot have multiple `mut*` references to the same data, and references cannot outlive their owners.
-- **Zero Overhead:** Mist pointers are "thin" or "fat" exactly like Rust references; they carry no extra runtime metadata and compile to identical machine code.
+- **Prefix Pointer Syntax**: `*Type` for shared references, `*mut Type` for mutable references.
+- **Explicit Intent**: The `*mut` syntax clearly distinguishes read-only from writable references, mapping 1:1 to Rust's `&` and `&mut`.
+- **Visual Consistency**: Lifetimes (`'a`) are placed before the type in `*'a Type`, keeping the declaration flow left-to-right.
+- **Safety Guaranteed**: Despite the "pointer" appearance, the Mist compiler enforces Rust's borrow checker.
+- **Zero Overhead**: Mist pointers compile to identical machine code as Rust references.
