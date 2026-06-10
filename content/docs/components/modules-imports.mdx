@@ -8,19 +8,7 @@ Mist organizes code through a file-system based module system with explicit path
 
 ## The Module System
 
-Each `.mist` file in `src/` corresponds to a module. The module tree mirrors the file hierarchy. Directories can be declared as submodules using `mod`.
-
-### File-Based Modules
-
-The file `src/main.mist` is the crate root. Other files are discovered through `mod` declarations or by name.
-
-### Declaring Submodules
-
-```mist
-// src/main.mist
-mod network;
-mod database;
-```
+Each `.mist` file in `src/` corresponds to a module. and a `directory/package.mist` is a package like mod.rs, packages don't need `package.mist` to be functional, as long as a `.mist` file exists it will map it to pacakge_name::file_name.
 
 ## Imports
 
@@ -65,17 +53,17 @@ my-project/
 ├── Cargo.toml
 ├── src/
 │   ├── main.mist
-│   ├── lib/
-│   │   ├── parser.mist
-│   │   └── helper.rs
-│   └── _header.rs
+│   ├── my_api/
+│   │   ├── package.mist
+│   │   ├── methods.mist
+│   │   └── utils.mist
 └── .mist/
     └── src/
-        ├── main.rs        # transpiled output
-        ├── lib/
-        │   ├── parser.rs
-        │   └── helper.rs
-        └── _header.rs
+        ├── main.rs
+        └── my_api/
+            ├── mod.rs
+            ├── methods.rs
+            └── utils.rs
 ```
 
-The `.mist/src/` directory contains the transpiled Rust output. `_header.rs` is a special file that provides IDE support for Rust Analyzer.
+The `.mist/src/` directory contains the transpiled Rust output.

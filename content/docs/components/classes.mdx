@@ -71,6 +71,10 @@ pub class Animal {
     pub fn speak(*self) {
         println!("Unknown");
     }
+
+    pub fn legs(*self) {
+        println!("Unknown");
+    }
 }
 
 pub class Dog : Animal {
@@ -80,6 +84,11 @@ pub class Dog : Animal {
 
     pub override fn speak(*self) {
         println!("Woof!");
+    }
+
+    // Explicit override is useful for super inheritance
+    pub override(Animal) fn legs(*self) {
+        println!("4 legs");
     }
 }
 ```

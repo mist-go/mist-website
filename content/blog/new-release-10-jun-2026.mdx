@@ -1,0 +1,58 @@
+---
+title: Mist 0.3.1-alpha.0 is released, huge changes
+author: Klesti Selimaj
+date: 2026-06-10
+---
+
+## OOP / Inheritance
+Inheritance is now fully supported, meaning you can change functions, however changes could still be made, and it's not fully robust.
+
+The OOP model is pretty simple, and clever, it's type safe, meaning that function signatures are checked.
+
+```mist
+pub class Animal {
+    pub name String;
+
+    constructor() {
+        self.name = "Rex".to_string();
+    }
+
+    pub fn speak(*self) {
+        println!("Unknown");
+    }
+
+    pub fn legs(*self) {
+        println!("Unknown");
+    }
+}
+
+pub class Dog : Animal {
+    constructor() {
+        super -> Super::new();
+    }
+
+    pub override fn speak(*self) {
+        println!("Woof!");
+    }
+
+    // Explicit override is useful for super inheritance
+    pub override(Animal) fn legs(*self) {
+        println!("4 legs");
+    }
+}
+```
+
+In the backend, it generates a V table, which is then indexed and replaced statically, meaning it's close to 0 cost abstractions.
+
+## Syntax rewrite
+
+The syntax now uses `type name` and is more similar to go than C, however the control flow is still C-like, and i will be refactoring that as well.
+```
+let x = 10; // inference
+let x *str = "hello Mist";
+```
+
+Along with this, many bugs are fixed.
+
+## Module system
+`pub mod my_mod;` still exists, but it's not needed at all, the module system reads your file structure and automatically adjusts parents.
