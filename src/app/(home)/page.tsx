@@ -15,15 +15,15 @@ export const mistShowcase = [
     title: "Rust.. With ergonomics?",
     description:
       "C/C++/Java style syntax for comfort. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
-    code: `void main() {
+    code: `fn main() {
     println!("Hello, World!");
 
     greet("Developer");
 }
 
-pub void greet(str* name) {
-  // Familiar pointer ergonomics with Rust safety
-  String greeting = name.to_string();
+pub fn greet(name *str) {
+  let greeting String = name.to_string();
+
   println!("Hello, {}!", greeting);
 }`,
     cta: true,
@@ -33,11 +33,11 @@ pub void greet(str* name) {
     title: "Fast and works with Rust",
     description:
       "All of your favorite Rust libraries work with Mist. It compiles directly into efficient Rust code with zero-cost abstractions and no runtime overhead.",
-    code: `use <std::vec::Vec>;
-use <external_lib>;
+    code: `use std::sync::Arc;
+use external_lib;
 
 void process_data() {
-    var list = new Vec(); // Zero-cost abstraction
+    let list = Arc::new(Vec::new());
     external_lib::perform_task(list);
 }`,
   },
@@ -45,21 +45,19 @@ void process_data() {
   {
     title: "Class and Type System",
     description:
-      "Classes are syntactic sugar for Rust structs. Using 'extends' provides inheritance-style syntax over struct composition, compiling into the underlying Rust type system.",
-    code: `pub struct PluginInfo {
-    pub String name,
-    pub String version,
-}
-  
-pub class PluginRegistry<T> {
-    T plugins;
-
-    pub constructor(T plugins) {
-        self.plugins = plugins;
+      "Classes are syntactic sugar for Rust structs. Using ':' provides inheritance-style syntax over struct composition, compiling into the underlying Rust type system.",
+    code: `pub class Dog : Animal {
+    constructor() {
+        super -> Super::new();
     }
 
-    pub T plugins(self) {
-        return self.plugins;
+    pub override fn speak(*self) {
+        println!("Woof!");
+    }
+
+    // Explicit override is useful for super inheritance
+    pub override(Animal) fn legs(*self) u32 {
+        println!("4 legs");
     }
 }`,
   },
@@ -67,22 +65,35 @@ pub class PluginRegistry<T> {
   {
     title: "Better Developer Experience",
     description:
-      "While Rust can already be a great DX, Mist implements concepts that are proven to improve structure.",
-    code: `pub class Logger {
-    String prefix;
+      "While Rust can already be a great DX, Mist implements concepts that are proven to improve modular structure.",
+    code: `pub class Animal {
+    pub name String;
 
-    pub constructor(str* prefix) {
-        self.prefix = prefix.to_string();
+    constructor() {
+        self.name = "Rex".to_string();
     }
 
-    void log(self*, LogLevel level, str* message) {
-        println!("{level} {} {}", self.prefix, message);
+    pub fn speak(*self) {
+        println!("Unknown");
     }
 
-    impl fmt::Display {
-        std::fmt::Result fmt(self*, std::fmt::Formatter<'_> mut* f) {
-            return write!(f, "logger ({})", self.prefix);
-        }
+    pub fn legs(*self) {
+        println!("Unknown");
+    }
+}
+
+pub class Dog : Animal {
+    constructor() {
+        super -> Super::new();
+    }
+
+    pub override fn speak(*self) {
+        println!("Woof!");
+    }
+
+    // Explicit override is useful for super inheritance
+    pub override(Animal) fn legs(*self) {
+        println!("4 legs");
     }
 }`,
   },
