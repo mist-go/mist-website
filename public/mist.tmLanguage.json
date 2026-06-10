@@ -1,256 +1,464 @@
 {
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-    "name": "Mist",
+    "name": "mist",
     "scopeName": "source.mist",
     "patterns": [
-      { "include": "#comments" },
-      { "include": "#strings" },
-      { "include": "#attributes" },
-      { "include": "#macros" },
-      { "include": "#type_declarations" },
-      { "include": "#keywords" },
-      { "include": "#numbers" },
-      { "include": "#lifetimes" },
-      { "include": "#generics" },
-      { "include": "#types" },
-      { "include": "#namespaces" },
-      { "include": "#imports" },
-      { "include": "#modules" },
-      { "include": "#struct_literals" },
-      { "include": "#method_calls" },
-      { "include": "#field_access" },
-      { "include": "#arrow" },
-      { "include": "#return_arrow" },
-      { "include": "#functions" },
-      { "include": "#path_continuation" },
-      { "include": "#operators" },
-      { "include": "#punctuation" },
-      { "include": "#variables" }
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#attributes"
+        },
+        {
+            "include": "#macros"
+        },
+        {
+            "include": "#type_declarations"
+        },
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#numbers"
+        },
+        {
+            "include": "#lifetimes"
+        },
+        {
+            "include": "#generics"
+        },
+        {
+            "include": "#types"
+        },
+        {
+            "include": "#namespaces"
+        },
+        {
+            "include": "#imports"
+        },
+        {
+            "include": "#modules"
+        },
+        {
+            "include": "#struct_literals"
+        },
+        {
+            "include": "#method_calls"
+        },
+        {
+            "include": "#field_access"
+        },
+        {
+            "include": "#arrow"
+        },
+        {
+            "include": "#return_arrow"
+        },
+        {
+            "include": "#functions"
+        },
+        {
+            "include": "#path_continuation"
+        },
+        {
+            "include": "#operators"
+        },
+        {
+            "include": "#punctuation"
+        },
+        {
+            "include": "#variables"
+        }
     ],
     "repository": {
-      "comments": {
-        "name": "comment.line.double-slash.mist",
-        "match": "//.*"
-      },
-      "strings": {
-        "name": "string.quoted.double.mist",
-        "begin": "\"",
-        "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.mist" } },
-        "end": "\"",
-        "endCaptures": { "0": { "name": "punctuation.definition.string.end.mist" } },
-        "patterns": [
-          { "match": "\\\\.", "name": "constant.character.escape.mist" }
-        ]
-      },
-      "attributes": {
-        "name": "meta.attribute.mist",
-        "begin": "#!?\\[",
-        "beginCaptures": { "0": { "name": "punctuation.definition.attribute.begin.mist" } },
-        "end": "\\]",
-        "endCaptures": { "0": { "name": "punctuation.definition.attribute.end.mist" } },
-        "patterns": [{ "include": "$self" }]
-      },
-      "macros": {
-        "patterns": [
-          {
-            "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(!)(\\()",
+        "comments": {
+            "name": "comment.line.double-slash.mist",
+            "match": "//.*"
+        },
+        "strings": {
+            "name": "string.quoted.double.mist",
+            "begin": "\"",
             "beginCaptures": {
-              "1": { "name": "entity.name.function.macro.mist" },
-              "2": { "name": "keyword.operator.macro.mist" },
-              "3": { "name": "punctuation.parenthesis.begin.mist" }
+                "0": {
+                    "name": "punctuation.definition.string.begin.mist"
+                }
             },
-            "end": "\\)",
-            "endCaptures": { "0": { "name": "punctuation.parenthesis.end.mist" } },
-            "patterns": [{ "include": "$self" }]
-          },
-          {
-            "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(!)(\\[)",
+            "end": "\"",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.mist"
+                }
+            },
+            "patterns": [
+                {
+                    "match": "\\\\.",
+                    "name": "constant.character.escape.mist"
+                }
+            ]
+        },
+        "attributes": {
+            "name": "meta.attribute.mist",
+            "begin": "#!?\\[",
             "beginCaptures": {
-              "1": { "name": "entity.name.function.macro.mist" },
-              "2": { "name": "keyword.operator.macro.mist" },
-              "3": { "name": "punctuation.bracket.begin.mist" }
+                "0": {
+                    "name": "punctuation.definition.attribute.begin.mist"
+                }
             },
             "end": "\\]",
-            "endCaptures": { "0": { "name": "punctuation.bracket.end.mist" } },
-            "patterns": [{ "include": "$self" }]
-          },
-          {
-            "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(!)(\\{)",
-            "beginCaptures": {
-              "1": { "name": "entity.name.function.macro.mist" },
-              "2": { "name": "keyword.operator.macro.mist" },
-              "3": { "name": "punctuation.curly.brace.begin.mist" }
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.attribute.end.mist"
+                }
             },
-            "end": "\\}",
-            "endCaptures": { "0": { "name": "punctuation.curly.brace.end.mist" } },
-            "patterns": [{ "include": "$self" }]
-          }
-        ]
-      },
-      "type_declarations": {
-        "patterns": [
-          {
-            "match": "\\b(struct|enum|class|trait)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
-            "captures": {
-              "1": { "name": "storage.type.mist" },
-              "2": { "name": "entity.name.type.mist" }
-            }
-          },
-          {
-            "match": "\\b(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
-            "captures": {
-              "1": { "name": "storage.type.mist" },
-              "2": { "name": "entity.name.function.mist" }
-            }
-          }
-        ]
-      },
-      "keywords": {
-        "patterns": [
-          { "match": "\\b(if|else|while|for|return|break|continue|match|loop)\\b", "name": "keyword.control.mist" },
-          { "match": "\\b(struct|enum|class|trait|fn|let|impl|class)\\b", "name": "storage.modifier.mist" },
-          { "match": "\\b(pub|mut|use|mod|as|dyn|unsafe|self|constructor|override)\\b", "name": "keyword.other.mist" },
-          { "match": "\\b(true|false)\\b", "name": "constant.language.boolean.mist" }
-        ]
-      },
-      "numbers": {
-        "patterns": [
-          { "match": "\\b\\d+\\.\\d+\\b", "name": "constant.numeric.float.mist" },
-          { "match": "\\b\\d+\\b", "name": "constant.numeric.integer.mist" }
-        ]
-      },
-      "lifetimes": {
-        "match": "'[a-zA-Z_][a-zA-Z0-9_]*\\b",
-        "name": "storage.modifier.lifetime.mist"
-      },
-      "generics": {
-        "patterns": [
-          {
-            "begin": "(?<=[a-zA-Z0-9_>])<(?![=<>])",
-            "beginCaptures": { "0": { "name": "punctuation.brackets.angle.mist" } },
-            "end": "(?<!=)>",
-            "endCaptures": { "0": { "name": "punctuation.brackets.angle.mist" } },
             "patterns": [
-              { "include": "#comments" },
-              { "include": "#strings" },
-              { "include": "#lifetimes" },
-              { "include": "#types" },
-              { "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b", "name": "entity.name.type.mist" },
-              { "match": ",", "name": "punctuation.separator.mist" },
-              { "match": "[:+]", "name": "keyword.operator.mist" },
-              { "include": "#field_access" },
-              { "include": "#path_continuation" },
-              { "include": "#generics" }
+                {
+                    "include": "$self"
+                }
             ]
-          }
-        ]
-      },
-      "types": {
-        "patterns": [
-          {
-            "match": "(?<![A-Za-z])(f32|f64|i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)\\b",
-            "name": "entity.name.type.numeric.mist"
-          },
-          {
-            "match": "(?<![A-Za-z])(str|char|bool)\\b",
-            "name": "entity.name.type.other.mist"
-          },
-          {
-            "match": "\\b_?[A-Z][A-Za-z0-9_]*\\b(?!!)",
-            "name": "entity.name.type.mist"
-          }
-        ]
-      },
-      "namespaces": {
-        "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*::)",
-        "captures": {
-          "1": { "name": "entity.name.namespace.mist" }
-        }
-      },
-      "imports": {
-        "match": "\\buse\\s+([a-zA-Z_][a-zA-Z0-9_]*(?:\\s*::\\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\\s*;",
-        "captures": {
-          "1": { "name": "entity.name.namespace.mist" }
         },
-        "name": "meta.import.mist"
-      },
-      "modules": {
-        "match": "(?:pub\\s+)?\\bmod\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*;",
-        "captures": {
-          "1": { "name": "entity.name.namespace.module.mist" }
-        }
-      },
-      "struct_literals": {
-        "patterns": [
-          {
-            "begin": "\\b([A-Z][a-zA-Z0-9_]*)\\s*(\\{)",
-            "beginCaptures": {
-              "1": { "name": "entity.name.type.mist" },
-              "2": { "name": "punctuation.curly.brace.begin.mist" }
-            },
-            "end": "\\}",
-            "endCaptures": { "0": { "name": "punctuation.curly.brace.end.mist" } },
+        "macros": {
             "patterns": [
-              { "include": "#strings" },
-              { "include": "#numbers" },
-              { "include": "#keywords" },
-              { "include": "#lifetimes" },
-              { "include": "#types" },
-              { "include": "#operators" },
-              { "include": "#punctuation" },
-              { "include": "#field_access" },
-              { "match": "[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=:)", "name": "variable.object.field.mist" },
-              { "include": "$self" }
+                {
+                    "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(!)(\\()",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.name.function.macro.mist"
+                        },
+                        "2": {
+                            "name": "keyword.operator.macro.mist"
+                        },
+                        "3": {
+                            "name": "punctuation.parenthesis.begin.mist"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.parenthesis.end.mist"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                },
+                {
+                    "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(!)(\\[)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.name.function.macro.mist"
+                        },
+                        "2": {
+                            "name": "keyword.operator.macro.mist"
+                        },
+                        "3": {
+                            "name": "punctuation.bracket.begin.mist"
+                        }
+                    },
+                    "end": "\\]",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.bracket.end.mist"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                },
+                {
+                    "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(!)(\\{)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.name.function.macro.mist"
+                        },
+                        "2": {
+                            "name": "keyword.operator.macro.mist"
+                        },
+                        "3": {
+                            "name": "punctuation.curly.brace.begin.mist"
+                        }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.curly.brace.end.mist"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                }
             ]
-          }
-        ]
-      },
-      "method_calls": {
-        "match": "\\.([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()",
-        "captures": {
-          "1": { "name": "entity.name.function.mist" }
+        },
+        "type_declarations": {
+            "patterns": [
+                {
+                    "match": "\\b(struct|enum|class|trait)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+                    "captures": {
+                        "1": {
+                            "name": "storage.type.mist"
+                        },
+                        "2": {
+                            "name": "entity.name.type.mist"
+                        }
+                    }
+                },
+                {
+                    "match": "\\b(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+                    "captures": {
+                        "1": {
+                            "name": "storage.type.mist"
+                        },
+                        "2": {
+                            "name": "entity.name.function.mist"
+                        }
+                    }
+                }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "match": "\\b(if|else|while|for|return|break|continue|match|loop)\\b",
+                    "name": "keyword.control.mist"
+                },
+                {
+                    "match": "\\b(struct|enum|class|trait|fn|let|impl|class)\\b",
+                    "name": "storage.modifier.mist"
+                },
+                {
+                    "match": "\\b(pub|mut|use|mod|as|dyn|unsafe|self|super|Super|constructor|override)\\b",
+                    "name": "keyword.other.mist"
+                },
+                {
+                    "match": "\\b(true|false)\\b",
+                    "name": "constant.language.boolean.mist"
+                }
+            ]
+        },
+        "numbers": {
+            "patterns": [
+                {
+                    "match": "\\b\\d+\\.\\d+\\b",
+                    "name": "constant.numeric.float.mist"
+                },
+                {
+                    "match": "\\b\\d+\\b",
+                    "name": "constant.numeric.integer.mist"
+                }
+            ]
+        },
+        "lifetimes": {
+            "match": "'[a-zA-Z_][a-zA-Z0-9_]*\\b",
+            "name": "storage.modifier.lifetime.mist"
+        },
+        "generics": {
+            "patterns": [
+                {
+                    "begin": "(?<=[a-zA-Z0-9_>])<(?![=<>])",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.brackets.angle.mist"
+                        }
+                    },
+                    "end": "(?<!=)>",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.brackets.angle.mist"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "include": "#strings"
+                        },
+                        {
+                            "include": "#lifetimes"
+                        },
+                        {
+                            "include": "#types"
+                        },
+                        {
+                            "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b",
+                            "name": "entity.name.type.mist"
+                        },
+                        {
+                            "match": ",",
+                            "name": "punctuation.separator.mist"
+                        },
+                        {
+                            "match": "[:+]",
+                            "name": "keyword.operator.mist"
+                        },
+                        {
+                            "include": "#field_access"
+                        },
+                        {
+                            "include": "#path_continuation"
+                        },
+                        {
+                            "include": "#generics"
+                        }
+                    ]
+                }
+            ]
+        },
+        "types": {
+            "patterns": [
+                {
+                    "match": "(?<![A-Za-z])(f32|f64|i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)\\b",
+                    "name": "entity.name.type.numeric.mist"
+                },
+                {
+                    "match": "(?<![A-Za-z])(str|char|bool)\\b",
+                    "name": "entity.name.type.other.mist"
+                },
+                {
+                    "match": "\\b_?[A-Z][A-Za-z0-9_]*\\b(?!!)",
+                    "name": "entity.name.type.mist"
+                }
+            ]
+        },
+        "namespaces": {
+            "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*::)",
+            "captures": {
+                "1": {
+                    "name": "entity.name.namespace.mist"
+                }
+            }
+        },
+        "imports": {
+            "match": "\\buse\\s+([a-zA-Z_][a-zA-Z0-9_]*(?:\\s*::\\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\\s*;",
+            "captures": {
+                "1": {
+                    "name": "entity.name.namespace.mist"
+                }
+            },
+            "name": "meta.import.mist"
+        },
+        "modules": {
+            "match": "(?:pub\\s+)?\\bmod\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*;",
+            "captures": {
+                "1": {
+                    "name": "entity.name.namespace.module.mist"
+                }
+            }
+        },
+        "struct_literals": {
+            "patterns": [
+                {
+                    "begin": "\\b([A-Z][a-zA-Z0-9_]*)\\s*(\\{)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.name.type.mist"
+                        },
+                        "2": {
+                            "name": "punctuation.curly.brace.begin.mist"
+                        }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.curly.brace.end.mist"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#strings"
+                        },
+                        {
+                            "include": "#numbers"
+                        },
+                        {
+                            "include": "#keywords"
+                        },
+                        {
+                            "include": "#lifetimes"
+                        },
+                        {
+                            "include": "#types"
+                        },
+                        {
+                            "include": "#operators"
+                        },
+                        {
+                            "include": "#punctuation"
+                        },
+                        {
+                            "include": "#field_access"
+                        },
+                        {
+                            "match": "[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=:)",
+                            "name": "variable.object.field.mist"
+                        },
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                }
+            ]
+        },
+        "method_calls": {
+            "match": "\\.([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()",
+            "captures": {
+                "1": {
+                    "name": "entity.name.function.mist"
+                }
+            }
+        },
+        "field_access": {
+            "match": "\\.([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+            "captures": {
+                "1": {
+                    "name": "variable.other.property.mist"
+                }
+            }
+        },
+        "path_continuation": {
+            "match": "::\\s*([a-zA-Z_][a-zA-Z0-9_]*+)(?!\\s*\\()",
+            "captures": {
+                "1": {
+                    "name": "entity.name.namespace.mist"
+                }
+            }
+        },
+        "arrow": {
+            "match": "=>",
+            "name": "keyword.operator.arrow.mist"
+        },
+        "return_arrow": {
+            "match": "->",
+            "name": "keyword.operator.arrow.mist"
+        },
+        "functions": {
+            "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()",
+            "name": "entity.name.function.mist"
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "match": "(?:\\+=|-=|\\*=|\\/=|%=|&=|\\|=|\\^=|<<=|>>=|<<|>>|\\.\\.=|\\.\\.|<=|>=|==|!=|&&|\\|\\||[+\\-*/%<>&|^=!]|\\+\\+|--)",
+                    "name": "keyword.operator.mist"
+                }
+            ]
+        },
+        "punctuation": {
+            "match": "::|:|;|,|\\.|\\{|\\}|\\(|\\)|\\[|\\]|\\?",
+            "name": "punctuation.mist"
+        },
+        "variables": {
+            "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b",
+            "name": "variable.other.mist"
         }
-      },
-      "field_access": {
-        "match": "\\.([a-zA-Z_][a-zA-Z0-9_]*)\\b",
-        "captures": {
-          "1": { "name": "variable.other.property.mist" }
-        }
-      },
-      "path_continuation": {
-        "match": "::\\s*([a-zA-Z_][a-zA-Z0-9_]*+)(?!\\s*\\()",
-        "captures": {
-          "1": { "name": "entity.name.namespace.mist" }
-        }
-      },
-      "arrow": {
-        "match": "=>",
-        "name": "keyword.operator.arrow.mist"
-      },
-      "return_arrow": {
-        "match": "->",
-        "name": "keyword.operator.arrow.mist"
-      },
-      "functions": {
-        "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()",
-        "name": "entity.name.function.mist"
-      },
-      "operators": {
-        "patterns": [
-          {
-            "match": "(?:\\+=|-=|\\*=|\\/=|%=|&=|\\|=|\\^=|<<=|>>=|<<|>>|\\.\\.=|\\.\\.|<=|>=|==|!=|&&|\\|\\||[+\\-*/%<>&|^=!]|\\+\\+|--)",
-            "name": "keyword.operator.mist"
-          }
-        ]
-      },
-      "punctuation": {
-        "match": "::|:|;|,|\\.|\\{|\\}|\\(|\\)|\\[|\\]|\\?",
-        "name": "punctuation.mist"
-      },
-      "variables": {
-        "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b",
-        "name": "variable.other.mist"
-      }
     }
-  }
-  
+}
