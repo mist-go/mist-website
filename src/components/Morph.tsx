@@ -11,7 +11,7 @@ interface Props {
 
 const highlighterPromise = createHighlighter({
   themes: ["github-dark"],
-  langs: [mist],
+  langs: [mist as any],
 });
 
 export default function MorphCode({ code }: Props) {
