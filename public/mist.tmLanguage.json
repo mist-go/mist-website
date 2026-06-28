@@ -34,9 +34,6 @@
             "include": "#types"
         },
         {
-            "include": "#namespaces"
-        },
-        {
             "include": "#imports"
         },
         {
@@ -44,6 +41,9 @@
         },
         {
             "include": "#struct_literals"
+        },
+        {
+            "include": "#impl"
         },
         {
             "include": "#method_calls"
@@ -212,12 +212,19 @@
                     }
                 },
                 {
-                    "match": "\\b(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+                    "match": "\\b(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
                     "captures": {
                         "1": {
                             "name": "storage.type.mist"
                         },
                         "2": {
+                            "patterns": [
+                                {
+                                    "include": "#types"
+                                }
+                            ]
+                        },
+                        "3": {
                             "name": "entity.name.function.mist"
                         }
                     }
@@ -227,7 +234,7 @@
         "keywords": {
             "patterns": [
                 {
-                    "match": "\\b(if|else|while|for|return|break|continue|match|loop)\\b",
+                    "match": "\\b(if|else|while|for|return|break|continue|match|loop|in)\\b",
                     "name": "keyword.control.mist"
                 },
                 {
@@ -235,7 +242,7 @@
                     "name": "storage.modifier.mist"
                 },
                 {
-                    "match": "\\b(pub|mut|use|mod|as|dyn|unsafe|self|super|Super|constructor|override)\\b",
+                    "match": "\\b(pub|mut|use|module|as|dyn|unsafe|self|super|Super|constructor|override)\\b",
                     "name": "keyword.other.mist"
                 },
                 {
@@ -316,38 +323,38 @@
         "types": {
             "patterns": [
                 {
-                    "match": "(?<![A-Za-z])(f32|f64|i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize)\\b",
-                    "name": "entity.name.type.numeric.mist"
+                    "match": "(?<![A-Za-z])(f32|f64|i128|i16|i32|i64|i8|isize|u128|u16|u32|u64|u8|usize|str|char|bool|void)\\b",
+                    "name": "storage.type.built-in.primitive.mist"
                 },
                 {
-                    "match": "(?<![A-Za-z])(str|char|bool)\\b",
-                    "name": "entity.name.type.other.mist"
+                    "match": "\\b((?:[a-z_][a-zA-Z0-9_]*::)*)([A-Z][A-Za-z0-9_]*)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.namespace.mist"
+                        },
+                        "2": {
+                            "name": "entity.name.type.mist"
+                        }
+                    },
+                    "include": "#operators"
                 },
                 {
-                    "match": "\\b_?[A-Z][A-Za-z0-9_]*\\b(?!!)",
+                    "match": "\\b[A-Z][A-Za-z0-9_]*\\b",
                     "name": "entity.name.type.mist"
                 }
             ]
         },
-        "namespaces": {
-            "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*::)",
-            "captures": {
-                "1": {
-                    "name": "entity.name.namespace.mist"
-                }
-            }
-        },
         "imports": {
             "match": "\\buse\\s+([a-zA-Z_][a-zA-Z0-9_]*(?:\\s*::\\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\\s*;",
-            "captures": {
-                "1": {
-                    "name": "entity.name.namespace.mist"
+            "patterns": [
+                {
+                    "include": "#types"
                 }
-            },
+            ],
             "name": "meta.import.mist"
         },
         "modules": {
-            "match": "(?:pub\\s+)?\\bmod\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*;",
+            "match": "(?:pub\\s+)?\\bmodule\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*;",
             "captures": {
                 "1": {
                     "name": "entity.name.namespace.module.mist"
@@ -444,10 +451,51 @@
             "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()",
             "name": "entity.name.function.mist"
         },
+        "impl": {
+            "patterns": [
+                {
+                    "match": "\\b(impl)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s+for\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+                    "captures": {
+                        "1": {
+                            "name": "storage.type.mist"
+                        },
+                        "2": {
+                            "patterns": [
+                                {
+                                    "include": "#types"
+                                }
+                            ]
+                        },
+                        "3": {
+                            "patterns": [
+                                {
+                                    "include": "#types"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "match": "\\b(impl)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s+",
+                    "captures": {
+                        "1": {
+                            "name": "storage.type.mist"
+                        },
+                        "2": {
+                            "patterns": [
+                                {
+                                    "include": "#types"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
         "operators": {
             "patterns": [
                 {
-                    "match": "(?:\\+=|-=|\\*=|\\/=|%=|&=|\\|=|\\^=|<<=|>>=|<<|>>|\\.\\.=|\\.\\.|<=|>=|==|!=|&&|\\|\\||[+\\-*/%<>&|^=!]|\\+\\+|--)",
+                    "match": "(?:\\+=|-=|\\*=|\\/=|%=|&=|\\|=|\\^=|<<=|>>=|<<|>>|\\.\\.=|\\.\\.|<=|>=|==|!=|&&|\\|\\||[+\\-*/%<>&|^=!]|\\+\\+|--|:)",
                     "name": "keyword.operator.mist"
                 }
             ]
