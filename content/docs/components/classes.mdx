@@ -4,21 +4,21 @@ description: Unified data and behavior with Java-style organization and Rust-pow
 icon: Shapes
 ---
 
-Classes in Mist bridge the gap between Java's organizational structure and Rust's performance. They group fields, constructors, and methods within a single cohesive block, using `fn` for methods and `*self` for the instance parameter.
+Classes in Mist bridge the gap between Java's organizational structure and Rust's performance. They group fields, constructors, and methods within a single cohesive block, using C-style method signatures with `&self` for the instance parameter.
 
 ## Basic Syntax
 
-A class groups fields and methods together. Fields use semicolons and the `name Type` convention. Methods use `fn` and take `*self` as the first parameter for shared access.
+A class groups fields and methods together. Fields use semicolons and the `Type name` convention. Methods use C-style syntax with `&self` as the first parameter for shared access.
 
 ```mist
 pub class Logger {
-    prefix String;
+    String prefix;
 
-    pub fn info(*self, message *str) {
+    pub void info(&self, message str&) {
         self.log(LogLevel::Info, message);
     }
 
-    fn log(*self, level LogLevel, message *str) {
+    void log(&self, LogLevel level, message str&) {
         println!("{level} {} {}", self.prefix, message);
     }
 }
@@ -37,58 +37,71 @@ pub constructor() {
 Constructors can take parameters:
 
 ```mist
-pub constructor(prefix String) {
+pub constructor(String prefix) {
     self.prefix = prefix;
 }
 ```
 
-## Instance Methods & `*self`
+## Instance Methods & `&self`
 
-Methods use `*self` (shared reference) or `*mut self` (mutable reference) as the first parameter. The return type is placed after the parameter list.
+Methods use `&self` (shared reference) or `&mut self` (mutable reference) as the first parameter.
 
 ```mist
-pub fn warning(*self, message *str) {
+pub void warning(&self, message str&) {
     self.log(LogLevel::Warning, message);
 }
 
-pub fn reset(*mut self) {
+pub void reset(&mut self) {
     self.prefix = String::new();
 }
 ```
 
 ## Inheritance
 
-Classes support single inheritance with the `:` syntax. Use `super -> Super::new()` in the constructor to call the parent constructor. Override methods with `override` or `override(Parent)`.
+Classes support single inheritance with the `:` syntax. Use `super = Super::new()` in the constructor to call the parent constructor. Override methods by placing `override(Parent)` after the parameter list.
 
 ```mist
 pub class Animal {
-    pub name String;
+    pub String name;
 
     constructor() {
         self.name = "Rex".to_string();
     }
 
-    pub fn speak(*self) {
-        println!("Unknown");
-    }
-
-    pub fn legs(*self) {
-        println!("Unknown");
+    pub String speak(&self) {
+        "Unknown".to_string()
     }
 }
 
 pub class Dog : Animal {
     constructor() {
-        super -> Super::new();
+        super = Super::new();
     }
 
-    pub override fn speak(*self) {
-        println!("Woof!");
+    pub String speak(&self) override(Animal) {
+        "Woof!".to_string()
+    }
+}
+```
+
+## Trait Implementations
+
+Traits can be implemented directly inside a class body:
+
+```mist
+pub class Dog : Animal {
+    constructor() {
+        self.name = name;
     }
 
-    // Explicit override is useful for super inheritance
-    pub override(Animal) fn legs(*self) {
-        println!("4 legs");
+    pub String speak(&self) override(Animal) {
+        "Woof!".to_string()
+    }
+
+    impl std::fmt::Display {
+        Result<(), std::fmt::Error> fmt(&self, std::fmt::Formatter<'_> mut& f) {
+            write!(f, "🐾 {}", self.name)
+        }
     }
 }
 ```
@@ -99,37 +112,24 @@ Classes support generic type parameters:
 
 ```mist
 pub class Container<T> {
-    pub value T;
+    T value;
 
-    constructor(val T) {
+    constructor(T val) {
         self.value = val;
     }
 
-    pub fn get(*self) *T {
+    pub &T get(&self) {
         &self.value
     }
 }
 ```
 
-## Allocations
-In classes, it's very important to initialize heap allocated fields in `constructor` using `path -> expr`, here is the most common example:
-```mist
-pub class Dog : Animal {
-    pub heap_alloc Box<i32>;
-
-    constructor() {
-        super -> Super::new();
-        self.heap_alloc -> Box::new(69);
-    }
-}
-```
-This outputs `std::ptr::write` which is a force write to memory without dropping what "exists", and it's commonly used in uninitialized memory, such as uninitialized dynamic fields.
-
 ## Key Characteristics
 
 - **Unified Scope**: Data and behavior live in one class block.
-- **`fn` Methods**: Methods use the `fn` keyword, consistent with free functions.
-- **`*self` Parameter**: The self reference is explicit and uses prefix `*` syntax.
-- **Inheritance**: Single inheritance with `override` for polymorphic dispatch.
+- **C-Style Methods**: Return type before name — no `fn` keyword.
+- **`&self` Parameter**: The self reference is explicit and uses `&` syntax.
+- **Inheritance**: Single inheritance with `override(Parent)` for polymorphic dispatch.
 - **Encapsulation**: Visibility modifiers (`pub`) control API exposure.
+- **Inline Impl**: Traits can be implemented directly within the class body.
 - **Zero-Cost Classes**: Under the hood, Mist desugars these into idiomatic Rust structs and implementation blocks.

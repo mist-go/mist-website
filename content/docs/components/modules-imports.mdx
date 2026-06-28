@@ -6,9 +6,24 @@ icon: FolderTree
 
 Mist organizes code through a file-system based module system with explicit path imports.
 
-## The Module System
+## Module Declarations
 
-Each `.mist` file in `src/` corresponds to a module. and a `directory/package.mist` is a package like mod.rs, packages don't need `package.mist` to be functional, as long as a `.mist` file exists it will map it to pacakge_name::file_name.
+Each `.mist` file declares itself as a module with `pub module name;` at the top. A `package.mist` file acts like `mod.rs` — it is the entry point for its directory.
+
+```mist
+// src/utils/helper.mist
+pub module helper;
+
+pub void greet() {
+    println!("Hello!");
+}
+```
+
+```mist
+// src/utils/package.mist
+pub module utils;
+// This module exports submodules and items
+```
 
 ## Imports
 
@@ -51,6 +66,7 @@ A typical Mist project looks like this:
 ```
 my-project/
 ├── Cargo.toml
+├── Mist.toml
 ├── src/
 │   ├── main.mist
 │   ├── my_api/

@@ -1,29 +1,29 @@
 ---
 title: Pointers & References
-description: Explicit memory access with prefix pointer syntax and Rust-native safety.
+description: Explicit memory access with postfix reference syntax and Rust-native safety.
 icon: MousePointer2
 ---
 
-Mist uses a prefix `*` syntax for reference types. While the symbols look like C-style pointers, they adhere strictly to Rust's ownership and borrowing rules.
+Mist uses a postfix `&` syntax for reference types. While familiar from C++, these references adhere strictly to Rust's ownership and borrowing rules.
 
 ## Basic Syntax
 
-Reference types are written with `*` before the type. Use `*mut` for mutable references. The `&` and `&mut` operators create references from values.
+Reference types are written with `&` after the type. Use `mut&` for mutable references. The `&` and `&mut` operators create references from values.
 
 ```mist
-let x i32 = 42;
-let r *i32 = &x;
+i32 x = 42;
+i32& r = &x;
 
 let mut y = 42;
-let r *mut i32 = &mut y;
+i32 mut& r = &mut y;
 *r = 100;
 ```
 
 In function parameters:
 
 ```mist
-fn increment(value *mut i32, limit *i32) {
-    if (*value < *limit) {
+void increment(i32 mut& value, i32& limit) {
+    if *value < *limit {
         *value = *value + 1;
     }
 }
@@ -31,30 +31,37 @@ fn increment(value *mut i32, limit *i32) {
 
 ## Lifetimes
 
-Lifetimes are placed between `*` and the type, reading as "pointer with lifetime to type":
+Lifetimes are placed before the type in the `&` suffix:
 
 ```mist
 pub struct Inspector<'a> {
-    pub target *'a str,
-    pub counter *'a mut u32,
+    &'a str target,
+    &'a mut u32 counter,
 }
 ```
 
-## Allocations
-In classes, it's very important to initialize heap allocated fields in `constructor` using `path -> expr`, here is the most common example:
+## In Classes
+
+Methods use `&self` for immutable access and `&mut self` for mutable access:
+
 ```mist
-pub class Dog : Animal {
-    constructor() {
-        super -> Super::new();
+pub class Logger {
+    String prefix;
+
+    pub void info(&self, message str&) {
+        println!("{}", message);
+    }
+
+    pub void reset(&mut self) {
+        self.prefix = String::new();
     }
 }
 ```
-This outputs `std::ptr::write` which is a force write to memory without dropping what "exists", and it's commonly used in uninitialized memory, such as uninitialized dynamic fields.
 
 ## Key Characteristics
 
-- **Prefix Pointer Syntax**: `*Type` for shared references, `*mut Type` for mutable references.
-- **Explicit Intent**: The `*mut` syntax clearly distinguishes read-only from writable references, mapping 1:1 to Rust's `&` and `&mut`.
-- **Visual Consistency**: Lifetimes (`'a`) are placed before the type in `*'a Type`, keeping the declaration flow left-to-right.
-- **Safety Guaranteed**: Despite the "pointer" appearance, the Mist compiler enforces Rust's borrow checker.
-- **Zero Overhead**: Mist pointers compile to identical machine code as Rust references.
+- **Postfix Reference Syntax**: `T&` for shared references, `T mut&` for mutable references.
+- **Explicit Intent**: The `mut&` syntax clearly distinguishes read-only from writable references.
+- **Visual Consistency**: Lifetimes (`'a`) are placed before the type in `&'a T`.
+- **Safety Guaranteed**: The Mist compiler enforces Rust's borrow checker.
+- **Zero Overhead**: Mist references compile to identical machine code as Rust references.

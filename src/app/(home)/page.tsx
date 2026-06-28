@@ -12,19 +12,24 @@ const MotionLink = motion(Link);
 
 export const mistShowcase = [
   {
-    title: "Rust.. With ergonomics?",
+    title: "Rust.. With classes?",
     description:
-      "C/C++/Java style syntax for comfort. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
-    code: `fn main() {
-    println!("Hello, World!");
+      "C++ style syntax for comfort. Mist is designed for fast, readable systems code with minimal friction compared to raw Rust.",
+    code: `pub class Player
+{
+    pub String name;
+    pub i32 hp;
 
-    greet("Developer");
-}
-
-pub fn greet(name *str) {
-  let greeting String = name.to_string();
-
-  println!("Hello, {}!", greeting);
+    pub constructor(str& name)
+    {
+        self.name = name.to_string();
+        self.hp = 100;
+    }
+    
+    pub bool is_dead(&self)
+    {
+        self.hp <= 0
+    }
 }`,
     cta: true,
   },
@@ -33,67 +38,33 @@ pub fn greet(name *str) {
     title: "Fast and works with Rust",
     description:
       "All of your favorite Rust libraries work with Mist. It compiles directly into efficient Rust code with zero-cost abstractions and no runtime overhead.",
-    code: `use std::sync::Arc;
-use external_lib;
+    code: `use serde::Deserialize;
 
-void process_data() {
-    let list = Arc::new(Vec::new());
-    external_lib::perform_task(list);
+#[Deserialize]
+pub struct MyJsonComponent
+{
+    pub String name,
 }`,
   },
 
   {
     title: "Class and Type System",
     description:
-      "Classes are syntactic sugar for Rust structs. Using ':' provides inheritance-style syntax over struct composition, compiling into the underlying Rust type system.",
-    code: `pub class Dog : Animal {
-    constructor() {
-        super -> Super::new();
+      "Classes work similarly to c++ inheritance, with safety ensuring that fields are initialized",
+    code: `pub class Car : Vehicle
+{
+    pub i32 horse_power;
+
+    constructor()
+    {
+        super = Super::new();
+        self.horse_power = 300;
     }
 
-    pub override fn speak(*self) {
-        println!("Woof!");
-    }
-
-    // Explicit override is useful for super inheritance
-    pub override(Animal) fn legs(*self) u32 {
-        println!("4 legs");
-    }
-}`,
-  },
-
-  {
-    title: "Better Developer Experience",
-    description:
-      "While Rust can already be a great DX, Mist implements concepts that are proven to improve modular structure.",
-    code: `pub class Animal {
-    pub name String;
-
-    constructor() {
-        self.name = "Rex".to_string();
-    }
-
-    pub fn speak(*self) {
-        println!("Unknown");
-    }
-
-    pub fn legs(*self) {
-        println!("Unknown");
-    }
-}
-
-pub class Dog : Animal {
-    constructor() {
-        super -> Super::new();
-    }
-
-    pub override fn speak(*self) {
-        println!("Woof!");
-    }
-
-    // Explicit override is useful for super inheritance
-    pub override(Animal) fn legs(*self) {
-        println!("4 legs");
+    pub void accelerate() override
+    {
+      // speed inherited from Vehicle (via DerefMut)
+      self.speed *= horse_power;
     }
 }`,
   },

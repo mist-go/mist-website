@@ -4,16 +4,16 @@ description: Defining shared behavior and contracts with Mist's signature ergono
 icon: Sparkles
 ---
 
-Traits in Mist define a set of methods that a type must implement, facilitating polymorphism and shared behavior. Method signatures use the `fn` keyword with `*self` for the instance parameter.
+Traits in Mist define a set of methods that a type must implement, facilitating polymorphism and shared behavior. Method signatures use C-style syntax with `&self` for the instance parameter.
 
 ## Defining a Trait
 
-A trait lists method signatures using `fn`, with `*self` as the instance parameter and the return type after the parameter list.
+A trait lists method signatures using return-type-first syntax, with `&self` as the instance parameter.
 
 ```mist
 pub trait Drawable {
-    fn draw(*self);
-    fn metadata(*self) *str;
+    void draw(&self);
+    str& metadata(&self);
 }
 ```
 
@@ -23,11 +23,11 @@ Use `impl Trait for Type` to provide implementations:
 
 ```mist
 impl Drawable for Task {
-    fn draw(*self) {
+    void draw(&self) {
         println!("Drawing task: {}", self.name);
     }
 
-    fn metadata(*self) *str {
+    str& metadata(&self) {
         self.name
     }
 }
@@ -39,9 +39,9 @@ Traits can provide default behavior for methods that implementing types may over
 
 ```mist
 pub trait Identifiable {
-    fn get_id(*self) u32;
+    u32 get_id(&self);
 
-    fn is_valid(*self) bool {
+    bool is_valid(&self) {
         self.get_id() > 0
     }
 }
@@ -53,18 +53,18 @@ A trait can require another trait using the colon `:` syntax:
 
 ```mist
 pub trait Speak {
-    fn speak(*self) String;
+    String speak(&self);
 }
 
 pub trait Greet : Speak {
-    fn greet(*self) String;
+    String greet(&self);
 }
 ```
 
 ## Key Characteristics
 
-- **`fn` Signatures**: Method signatures use `fn`, consistent with free functions.
-- **Explicit Context**: Methods use `*self` as the first parameter, mapping directly to Rust's reference rules.
+- **C-Style Signatures**: Return type before name — no `fn` keyword.
+- **Explicit Context**: Methods use `&self` as the first parameter, mapping directly to Rust's reference rules.
 - **Default Methods**: Traits can provide default implementations.
 - **Super-traits**: Colon syntax for expressing trait requirements.
 - **Static Dispatch**: By default, Mist traits leverage Rust's zero-cost generics and monomorphization.
