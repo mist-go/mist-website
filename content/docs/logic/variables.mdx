@@ -4,15 +4,27 @@ description: Local state management with type inference and explicit mutability.
 icon: Variable
 ---
 
-Variables in Mist are declared with the `let` keyword. Like Rust, variables are immutable by default, and types are written after the name for scannability.
+Variables in Mist support two declaration styles: inferred typing with `let` and explicit type annotation. Like Rust, variables are immutable by default.
 
 ## Basic Declaration
 
-Variables use `let` for automatic type inference. The type annotation is optional — when omitted, the compiler infers the type from the value.
+Use `let` for automatic type inference:
 
 ```mist
 let x = 42;
 let greeting = "Hello Mist";
+let s = "hello, world!";
+```
+
+## Explicit Typing
+
+Type annotations are placed before the name:
+
+```mist
+i32 x = 42;
+bool is_active = true;
+str& name = "mist";
+f64 pi = 3.14;
 ```
 
 ## Mutability
@@ -24,14 +36,20 @@ let mut score = 0;
 score = 100;
 ```
 
-## Explicit Typing
-
-Type annotations are placed after the name:
+Or with explicit typing:
 
 ```mist
-let id u64 = 1000234;
-let is_active bool = true;
-let name *str = "mist";
+i32 mut counter = 0;
+counter = 10;
+```
+
+## Strings
+
+String references use `str&` for a natural left-to-right read:
+
+```mist
+str& name = "mist";
+str& greeting = "Hello";
 ```
 
 ## Arrays
@@ -43,16 +61,17 @@ let zeros = [0; 10];         // Repeat notation: ten zeroes
 
 ## Pattern Destructuring
 
-Tuples are destructured using square brackets:
+Tuples are destructured using parentheses:
 
 ```mist
-let [a, b] = (10, "hello");
-let [a, [b, c]] = (1, (2, 3));
+let (a, b) = (10, "hello");
+let (a, (b, c)) = (1, (2, 3));
 ```
 
 ## Key Characteristics
 
-- **Predictable Order**: The `let` keyword signals a binding, followed by the name, optional type, and optional value.
+- **Dual Declaration Styles**: `let` for inference, `Type name` for explicit typing.
 - **Safety First**: Immutability by default prevents accidental state changes.
 - **Zero-Cost Inference**: Type inference is handled entirely at compile time.
 - **Shadowing**: Mist supports variable shadowing within the same scope.
+- **`str&` Notation**: String references use postfix `&` for clear left-to-right reading.

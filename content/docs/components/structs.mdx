@@ -1,20 +1,20 @@
 ---
 title: Structs
-description: Data modeling with Mist's name-first field convention.
+description: Data modeling with Mist's type-first field convention.
 icon: Form
 ---
 
-Structs in Mist follow the same structural logic as Rust, with fields using the language-wide `name Type` convention and comma-separated grouping.
+Structs in Mist follow the same structural logic as Rust, with fields using the language-wide `Type name` convention and comma-separated grouping.
 
 ## Basic Syntax
 
-A struct is defined by its name followed by a block of fields. Each field places the identifier before the type.
+A struct is defined by its name followed by a block of fields. Each field places the type before the identifier.
 
 ```mist
 pub struct Task {
-    pub name String,
-    pub state TaskState,
-    pub executions i32,
+    pub String name,
+    pub TaskState state,
+    pub i32 executions,
 }
 ```
 
@@ -24,14 +24,14 @@ Use the `pub` modifier to make the struct or its individual fields accessible fr
 
 ```mist
 pub struct NetworkNode {
-    pub id u32,
-    address *str,
+    pub u32 id,
+    str& address,
 }
 ```
 
 ## Instantiation
 
-Structs are instantiated using the standard brace syntax.
+Structs are instantiated using standard brace syntax.
 
 ```mist
 let task = Task {
@@ -41,29 +41,44 @@ let task = Task {
 };
 ```
 
+## Mutation
+
+Use `let mut` to allow field reassignment.
+
+```mist
+let mut p = Point {
+    x: 1,
+    y: 2,
+};
+p.x = 100;
+```
+
 ## Destructuring
 
 Struct patterns use `let` with the struct name and field bindings:
 
 ```mist
-let p = Point { x: 3, y: 4 };
+let p = Point {
+    x: 3,
+    y: 4,
+};
 let Point { x, y } = p;
 ```
 
-## Generics & Lifetimes
+## Generics
 
-Generics and lifetimes are declared in angle brackets after the struct name. Reference types use the `*` prefix.
+Generics and lifetimes are declared in angle brackets after the struct name.
 
 ```mist
 pub struct Buffer<'a, T> {
-    pub data *'a T,
-    pub len usize,
+    &'a T data,
+    usize len,
 }
 ```
 
 ## Key Characteristics
 
-- **Name-First Declaration**: Fields use `name Type` order, consistent with function parameters and variable declarations.
+- **Type-First Declaration**: Fields use `Type name` order, consistent with function parameters and variable declarations.
 - **Comma-Separated Members**: Fields are separated by commas, maintaining a clean delimiter style.
 - **Rust Compatibility**: Maps 1:1 to Rust structs, ensuring zero-cost abstraction and full ecosystem interoperability.
 - **Direct Visibility**: The `pub` modifier controls access at the struct and field level.
