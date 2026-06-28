@@ -4,33 +4,71 @@ description: The mindset, ergonomics, and feeling of writing Mist.
 icon: Brain
 ---
 
-**Mist** is a systems programming language designed for those who value the "craft" of software. It is built to provide a serene, tactile authoring environment that stays out of your way, allowing you to focus entirely on the architecture of your solution.
+**Mist** is a pragmatic systems programming language built on Rust. It uses C/C++ style syntax for quick onboarding while compiling directly to efficient Rust code with zero-cost abstractions and no runtime overhead.
 
-By compiling directly to Rust, Mist offers a refined surface layer that maintains industrial-grade safety and performance while prioritizing a flow state that is often lost in modern systems development.
+All of your favorite Rust libraries work with Mist. It is designed for **low-level applications and embedded programming**, where a type-first approach is preferred and staying close to the metal matters.
 
 ---
 
-## The Philosophy of Ergonomics
+## C++ You Know, Rust You Trust
 
-Writing Mist should feel intentional and deeply satisfying. It is built on the belief that systems programming is at its best when it is **calm, predictable, and direct**.
+Mist is meant to feel like C++ but **be** Rust. It bridges the gap between the ergonomics of a classic systems language and the safety guarantees of Rust's ownership model.
 
-### Reducing Expression Overhead
+### Type-First Syntax
 
-Complexity often arises from "expression overhead"—the mental energy spent navigating intricate syntax and symbols. Mist reduces this friction by:
+Low-level and embedded development demands clarity about what your data is. Mist puts the **type first** — before the name — so declarations read naturally:
 
-* **Predictable Flow:** By adopting a consistent `name: Type` convention, code follows a natural rhythm that is easy to write and instantly scannable.
-* **Structural Clarity:** Features like unified `class` blocks and explicit `constructor` keywords provide a clear, organized home for your logic, reducing the need to jump between disparate files or implementation blocks.
-* **Tactile Precision:** Every symbol, from `*mut` pointers to pattern-based variables, is designed to feel physically connected to the data it represents, making the "mechanics" of the language feel like a well-calm tool in your hand.
+```mist
+i32 score = 100;
+Vec<String> args = env::args().collect();
+void* data = allocate(size);
+```
+
+This mirrors C/C++ declaration syntax, making Mist instantly familiar to embedded and systems programmers while compiling into Rust's strict type system.
+
+### C-Style Functions
+
+Functions use the return type before the name — no `fn` keyword needed:
+
+```mist
+i32 add(i32 a, i32 b) {
+    a + b
+}
+
+void log(message *str) {
+    println!("{}", message);
+}
+```
+
+Every function maps directly to a Rust `fn` underneath.
+
+### Minimal Friction
+
+* No `let` keyword — `Type name = value` is all you need.
+* Consistent `name Type` convention across parameters, fields, and locals.
+* Explicit pointers with `*T` and `*mut T` — clear intent without ceremony.
+* String references use `str&` for a natural left-to-right read.
+
+---
+
+## Built for Low-Level and Embedded
+
+Mist is designed from the ground up for systems where resources are constrained and control is required:
+
+* **No runtime** — no garbage collector, no hidden allocator, no VM.
+* **Direct memory control** — explicit pointers, manual allocation, predictable layout.
+* **Zero-cost abstractions** — classes, traits, and generics all resolve at compile time.
+* **Works with existing Cargo tooling** — use any Rust crate as a library.
 
 ---
 
 ## A Transparent Surface Layer
 
-Mist is not a replacement for Rust; it is a **ergonomic interface** for it. It provides a way to interact with the world’s most powerful systems model through a cleaner lens.
+Mist is not a replacement for Rust; it is an **ergonomic interface** for it. It provides a way to interact with the world's most powerful systems model through a cleaner lens.
 
-* **Zero-Cost Abstractions:** Every high-level structure in Mist—whether it’s a class, an enum variant, or a trait implementation—maps directly to an optimized Rust primitive. There is no "magic," no hidden runtime, and no garbage collector.
-* **Grounded Safety:** Mist doesn't hide memory safety; it makes it easier to express. You retain the full power of the borrow checker, but with a syntax that feels like a classic, high-performance toolkit.
-* **Native Fluency:** Because Mist compiles to idiomatic, readable Rust, it is a first-class citizen of the ecosystem. You can utilize any existing crate while writing code that feels uniquely "Mist".
+* **Zero-Cost Abstractions:** Every high-level structure in Mist — classes, enums, traits — maps directly to optimized Rust primitives. No magic, no hidden runtime.
+* **Grounded Safety:** Mist doesn't hide memory safety; it makes it easier to express. You retain the full power of the borrow checker with syntax that feels like classic C++.
+* **Native Fluency:** Mist compiles to idiomatic, readable Rust, making it a first-class citizen of the ecosystem. Use any crate while writing code that feels distinctly Mist.
 
 ---
 
@@ -40,8 +78,7 @@ Mist is partially bootstrapped — the compiler's CLI, transpiler, and analyzer 
 
 ## Why Mist?
 
-Mist is for the developer who needs the rigor of a systems language but wants the comfort of a modern, streamlined environment.
-
-* **Mental Longevity:** Designed for large-scale codebases where readability is paramount to long-term maintenance.
-* **Direct Control:** You stay close to the metal, but the language handles the "noise" of idiomatic expression.
-* **Craftsmanship:** Mist is where the discipline of systems programming meets the comfort of a high-end workshop.
+* **Familiarity:** C/C++ developers can be productive immediately — no new optical model to learn.
+* **Safety:** Rust's borrow checker and type system under every expression, no exceptions.
+* **Control:** Explicit types, explicit pointers, explicit allocation — nothing hidden.
+* **Ecosystem:** The entire Rust crate ecosystem available at your fingertips.

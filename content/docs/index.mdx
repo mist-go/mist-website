@@ -8,11 +8,15 @@ icon: Rocket
 
 Mist is currently distributed as a Cargo crate. To get started, you'll need to have the Rust toolchain installed.
 
-Run the following command to install the Mist compiler:
+Run the following command to install the Mist toolchain:
 
 ```bash title="Terminal"
-cargo install mist-lang@0.3.1-alpha.0
+cargo install mist-lang@0.3.7-alpha.0
 ```
+
+> (ℹ) For a more streamlined development experience, Install the following VSCode extensions:
+> 1. [Mist syntax highlighting VSCode extension](https://marketplace.visualstudio.com/items?itemName=selimaj-dev.mist-syntax)
+> 2. [Mist analyzer LSP VSCode extension](https://marketplace.visualstudio.com/items?itemName=selimaj-dev.mist-analyzer)
 
 Once the installation finishes, verify it by checking the version:
 
@@ -22,39 +26,39 @@ mist version
 
 ---
 
-## 2. Setting Up Your Project
+## 2. Setting Up Your Cargo Project
 
-Mist works alongside Cargo to handle the heavy lifting. Use `init` to scaffold a new project:
+Mist works alongside Cargo to handle the heavy lifting. Use `cargo new` or `cargo init` to scaffold a new project:
 
 ```bash title="Terminal"
 cargo new my-mist-app
 cd my-mist-app
-mist init
 ```
 
 This creates a `src/main.mist` and wires up the output directory (`.mist/src/`) in your `Cargo.toml`.
 
-### Manual Setup
+### 3. Adding mist to your Cargo project
 
-If you prefer to configure things yourself, create a `mist.json` file:
+Mist needs a `Mist.toml` in the root of the project (Alongside `Cargo.toml`) to know what to transpile as the main file (eg. main.mist, lib.mist).
 
-```json title="mist.json"
-{
-  "src": "src",
-  "output": "build"
-}
+```toml title="Mist.toml"
+# main.mist is now the main package
+package = "main.mist"
+
+# Side packages that work as cargo binaries
+packages = []
 ```
 
 Source files go in `src/` and the transpiled output goes to `.mist/src/`. Non-Mist files in `src/` (e.g. Rust sidecar files) are copied through as-is.
 
 ---
 
-## 3. Your First Program
+## 4. Your First Program
 
 Create a new file at `src/main.mist` and add the following code:
 
 ```mist title="src/main.mist"
-fn main() {
+void main() {
     println!("Hello World!");
 }
 ```
@@ -62,7 +66,7 @@ fn main() {
 ### Build and Run
 
 ```bash title="Terminal"
-mist run          # or the short alias: mist r
+mist run          # or: mist r
 mist build        # or: mist b
 mist check        # or: mist c
 mist transpile    # or: mist t
@@ -74,7 +78,7 @@ mist transpile    # or: mist t
 
 | Command              | Alias | Description                                     |
 | -------------------- | ----- | ----------------------------------------------- |
-| `mist init`          |       | Initializes a new Mist project                  |
+| `mist init`          |       | Initializes a new Mist project (Deprecated)     |
 | `mist run`           | `r`   | Runs the project in the current directory       |
 | `mist build`         | `b`   | Builds the project in the current directory     |
 | `mist transpile`     | `t`   | Transpiles the project in the current directory |
